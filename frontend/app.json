@@ -21,10 +21,20 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.jakubner.VoiceMess"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "scheme": [
+      "facebookLogin",
+      "fb288958650780252"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "5393ba47-dac5-411a-bafe-4296ef5bdd92"
+      }
     }
   }
 }
