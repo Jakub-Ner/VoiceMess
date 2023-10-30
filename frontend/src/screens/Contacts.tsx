@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, ButtonGroup, Input, Layout, List, ListItem } from '@ui-kitten/components';
 import { Dimensions, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { useContacts } from "../hooks/useContacts";
 
 interface IListItem {
   title: string;
@@ -8,34 +9,8 @@ interface IListItem {
 }
 
 export default function Contacts() {
-  const [value, setValue] = React.useState('');
-
-  const renderItemAccessory = (): React.ReactElement => (
-    <ButtonGroup>
-      <Button size='tiny'>
-        ▷
-      </Button>
-      <Button size='tiny'>
-        ↻
-      </Button>
-    </ButtonGroup>
-
-  );
-
-  const renderPerson = (): React.ReactElement => (
-    <TouchableOpacity style={styles.image}>
-      <Image source={require('../../assets/person.png')} style={styles.image}/>
-    </TouchableOpacity>
-  );
-
-  const renderItem = ({item, index}: { item: IListItem; index: number }): React.ReactElement => (
-    <ListItem
-      title={`${item.title} ${index + 1}`}
-      description={`${item.description} ${index + 1}`}
-      accessoryLeft={renderPerson}
-      accessoryRight={renderItemAccessory}
-    />
-  );
+  const contacts = useContacts();
+  const [value, setValue] = useState('');
 
   return (
     <Layout style={styles.container}>
@@ -46,19 +21,48 @@ export default function Contacts() {
         value={value}
         onChangeText={nextValue => setValue(nextValue)}
       />
-      <List
-        style={styles.container}
-        data={data}
-        renderItem={renderItem}
-      />
+
+      {contacts.length > 0 && (
+        <List
+          style={styles.container}
+          data={contacts}
+          renderItem={renderItem}
+        />)}
+
     </Layout>
   );
 }
+const renderItemAccessory = (): React.ReactElement => (
+  <ButtonGroup>
+    <Button size='tiny'>
+      ▷
+    </Button>
+    <Button size='tiny'>
+      ↻
+    </Button>
+  </ButtonGroup>
 
-const data = new Array(13).fill({
-  title: 'Osoba nr',
-  description: 'Wiadomosc nr ',
-});
+);
+
+const renderPerson = (): React.ReactElement => (
+  <TouchableOpacity style={styles.image}>
+    <Image source={require('../../assets/person.png')} style={styles.image}/>
+  </TouchableOpacity>
+);
+
+function renderItem({item, index}: { item: IListItem; index: number }) {
+  if (!item) {
+    return null;
+  }
+  return (
+    <ListItem
+      title={item.title}
+      description={'description'}
+      accessoryLeft={renderPerson}
+      accessoryRight={renderItemAccessory}
+    />
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
