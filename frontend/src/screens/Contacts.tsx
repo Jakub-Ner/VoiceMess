@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, ButtonGroup, Input, Layout, List, ListItem } from '@ui-kitten/components';
-import { Dimensions, Image, StyleSheet } from "react-native";
+import { Dimensions, Image, StyleSheet, TouchableOpacity } from "react-native";
 
 interface IListItem {
   title: string;
@@ -22,17 +22,24 @@ export default function Contacts() {
 
   );
 
+  const renderPerson = (): React.ReactElement => (
+    <TouchableOpacity style={styles.image}>
+      <Image source={require('../../assets/person.png')} style={styles.image}/>
+    </TouchableOpacity>
+  );
+
   const renderItem = ({item, index}: { item: IListItem; index: number }): React.ReactElement => (
     <ListItem
       title={`${item.title} ${index + 1}`}
       description={`${item.description} ${index + 1}`}
+      accessoryLeft={renderPerson}
       accessoryRight={renderItemAccessory}
     />
   );
 
   return (
     <Layout style={styles.container}>
-      <Image source={require('../../assets/logo.png')} style={styles.image}/>
+      <Image source={require('../../assets/logo.png')} style={styles.logo}/>
       <Input
         style={styles.input}
         placeholder='🔍  Szukaj'
@@ -58,7 +65,7 @@ const styles = StyleSheet.create({
     marginTop: Dimensions.get('window').height * 0.04,
     flex: 1,
   },
-  image: {
+  logo: {
     width: 100,
     height: 100,
     borderRadius: 50,
@@ -70,5 +77,11 @@ const styles = StyleSheet.create({
     width: '70%',
     alignSelf: 'center',
     borderRadius: 50,
-  }
+  },
+  image: {
+    width: 50,
+    height: 50,
+    backgroundColor: 'white',
+    borderRadius: 90,
+  },
 });
