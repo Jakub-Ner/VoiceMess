@@ -1,5 +1,4 @@
 import LoginScreen from "./src/screens/LoginScreen";
-import HomeScreen from "./src/screens/HomeScreen";
 import KittenUiDemo from "./src/screens/KittenUiDemo";
 import * as eva from "@eva-design/eva";
 import {ApplicationProvider} from "@ui-kitten/components";
