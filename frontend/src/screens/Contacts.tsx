@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, ButtonGroup, Input, Layout, List, ListItem } from '@ui-kitten/components';
-import { Dimensions, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { Dimensions, Image, StyleSheet, TouchableHighlight, TouchableOpacity } from "react-native";
 import { useContacts } from "../hooks/useContacts";
 
 interface IListItem {
@@ -8,13 +8,19 @@ interface IListItem {
   description: string;
 }
 
-export default function Contacts() {
+export default function Contacts({navigation}) {
   const contacts = useContacts();
   const [value, setValue] = useState('');
 
+  const navigateSettings = () => {
+    navigation.navigate('settings');
+  };
+
   return (
     <Layout style={styles.container}>
-      <Image source={require('../../assets/logo.png')} style={styles.logo}/>
+      <TouchableHighlight style={styles.logo} onPress={navigateSettings}>
+        <Image source={require('../../assets/logo.png')} style={styles.logo}/>
+      </TouchableHighlight>
       <Input
         style={styles.input}
         placeholder='🔍  Szukaj'
