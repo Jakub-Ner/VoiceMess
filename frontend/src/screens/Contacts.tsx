@@ -72,7 +72,7 @@ function renderItem({item, index}: { item: IListItem; index: number }) {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: Dimensions.get('window').height * 0.04,
+    marginTop:  '8%',
     flex: 1,
   },
   logo: {
