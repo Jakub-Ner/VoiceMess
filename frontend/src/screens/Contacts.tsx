@@ -36,6 +36,7 @@ export default function Contacts({navigation}) {
         return (
             <ListItem
                 title={item.title}
+                style={{justifyContent: 'center', alignItems: 'center'}}
                 description={'description'}
                 accessoryLeft={renderPerson({name: item.title})}
                 accessoryRight={renderItemAccessory}
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         borderRadius: 50,
-        margin: 20,
+        margin: '3%',
         justifyContent: 'center',
         alignSelf: 'center',
     },
@@ -98,9 +99,12 @@ const styles = StyleSheet.create({
         borderRadius: 50,
     },
     image: {
+        alignSelf: 'center',
+        justifyContent: 'center',
         width: 50,
         height: 50,
         backgroundColor: 'white',
+        top: '-35%',
         borderRadius: 90,
     },
 });
