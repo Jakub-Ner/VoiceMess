@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {Button, ButtonGroup, Input, Layout, List, ListItem} from '@ui-kitten/components';
-import {Dimensions, Image, StyleSheet, TouchableHighlight, TouchableOpacity} from "react-native";
+import {Button, ButtonGroup, Input, Layout, List, ListItem, TopNavigation,TopNavigationAction, Icon, } from '@ui-kitten/components';
+import {Dimensions, Image, StyleSheet, TouchableHighlight, TouchableOpacity, View} from "react-native";
 import {useContacts} from "../hooks/useContacts";
 
 interface IListItem {
@@ -11,7 +11,7 @@ interface IListItem {
 export default function Contacts({navigation}) {
     const contacts = useContacts();
     const [value, setValue] = useState('');
-
+    const [filter, setFilter] = useState('');
     const navigateSettings = () => {
         navigation.navigate('settings');
     };
@@ -29,8 +29,11 @@ export default function Contacts({navigation}) {
         </TouchableOpacity>
     );
 
-    function renderItem({item, index}: { item: IListItem; index: number }) {
+    function renderItem({item, index}: { item: IListItem; index: number}) {
         if (!item) {
+            return null;
+        }
+        if (filter && !item.title.includes(filter)) {
             return null;
         }
         return (
@@ -54,9 +57,10 @@ export default function Contacts({navigation}) {
         </ButtonGroup>
     );
 
-
     return (
+
         <Layout style={styles.container}>
+
             <TouchableHighlight style={styles.logo} onPress={navigateSettings}>
                 <Image source={require('../../assets/logo.png')} style={styles.logo}/>
             </TouchableHighlight>
@@ -64,13 +68,16 @@ export default function Contacts({navigation}) {
                 style={styles.input}
                 placeholder='🔍  Szukaj'
                 value={value}
-                onChangeText={nextValue => setValue(nextValue)}
+                onChangeText={nextValue => (
+                    setValue(nextValue),
+                    setFilter(nextValue)
+                )}
             />
 
             {contacts.length > 0 && (
                 <List
                     style={styles.container}
-                    data={contacts}
+                    data={contacts} // Filtruj dane na poziomie komponentu
                     renderItem={renderItem}
                 />)}
 
