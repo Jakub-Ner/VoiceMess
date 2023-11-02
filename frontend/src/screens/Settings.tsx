@@ -10,9 +10,6 @@ export default function Settings({navigation}) {
         <Text category='h1' style={{marginBottom: '20%'}}>Adam Kowalski</Text>
 
             <Button style={styles.button}>
-                {evaProps => <Text {...evaProps} style={{fontSize: 22}}>⇦ Ustawienia profilu</Text>}
-            </Button>
-            <Button style={styles.button}>
                 {evaProps => <Text {...evaProps} style={{fontSize: 22}}>Zarządzaj głosami ➪</Text>}
             </Button>
             <Button style={styles.button}>
@@ -43,8 +40,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
   button: {
-    marginVertical: 3,
-    marginHorizontal: 10,
+    marginVertical: 7,
     width: '80%'
   },
 });
