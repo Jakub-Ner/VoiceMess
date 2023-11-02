@@ -17,7 +17,7 @@ export default function DefaultVoiceSettings() {
   return (
     <>
       <Layout style={{flex: 1, alignItems: 'flex-start', padding: '10%', marginTop: '8%'}}>
-        <Text category='h4' style={{marginBottom: '2%'}}>Moje głosy</Text>
+        <Text category='h4' style={{marginBottom: '4%'}}>Moje głosy</Text>
         <RadioGroup
           selectedIndex={selectedIndex}
           onChange={index => setSelectedIndex(index)}
@@ -33,15 +33,15 @@ export default function DefaultVoiceSettings() {
             {evaProps => <Text {...evaProps} style={{fontSize: 22}}> Krystyna Czubówna</Text>}
           </Radio>
         </RadioGroup>
-          <Divider style={{width: '100%', marginBottom: '8%'}}/>
+
+        <Divider style={{width: '100%', marginBottom: '8%'}}/>
+        <Text category='h4' style={{marginBottom: '4%'}}>Sklonuj nowy głos</Text>
 
         {!selectedFile
           ? (
-            <View style={{alignItems: 'center', width: '100%'}}>
-              <Button style={{marginVertical: 7}} onPress={pickedFile}>
-                <Text style={{fontSize: 22}}>Wybierz głos</Text>
-              </Button>
-            </View>
+            <Button style={{marginVertical: 7}} onPress={pickedFile}>
+              <Text style={{fontSize: 22}}>Wybierz próbkę</Text>
+            </Button>
           ) : (
             <>
               <Text style={{fontSize: 22}}>
