@@ -17,6 +17,7 @@ const AppNavigator = () => (
         <Navigator screenOptions={{headerShown: false}}>
             <Screen name='contact' component={Contacts}/>
             <Screen name='settings' component={Settings}/>
+            <Screen name='defaultVoiceSettings' component={DefaultVoiceSettings}/>
         </Navigator>
     </NavigationContainer>
 );
@@ -26,7 +27,7 @@ export default function App() {
     const theme = colorTheme === "dark" ? eva.dark : eva.light
     return (
         <ApplicationProvider {...eva} theme={theme}>
-            <DefaultVoiceSettings/>
+            <AppNavigator/>
         </ApplicationProvider>
     )
 }
