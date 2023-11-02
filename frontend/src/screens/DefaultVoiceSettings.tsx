@@ -3,7 +3,6 @@ import { Button, Layout, Radio, RadioGroup, Text, Divider } from '@ui-kitten/com
 import { StyleSheet, View } from "react-native";
 import * as DocumentPicker from 'expo-document-picker';
 
-
 export default function DefaultVoiceSettings() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedFile, setSelectedFile] = useState(null);

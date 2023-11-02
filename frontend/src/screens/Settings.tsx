@@ -13,9 +13,9 @@ export default function Settings({navigation}) {
         <Image source={require('../../assets/person.png')} style={styles.image}/>
         <Text category='h1' style={{marginBottom: '20%'}}>Adam Kowalski</Text>
 
-        <IconButton text={"Zarządzaj głosami"} file={require('../../assets/person.png')} onPress={navigateDefautlVoiceSettings} />
-        <IconButton text={"Subskrypcja"} file={require('../../assets/person.png')} onPress={() => console.log('goto subskrypcja')} />
-        <IconButton text={"Regulamin"} file={require('../../assets/person.png')} onPress={() => console.log('goto regulamin')} />
+        <IconButton text={"Zarządzaj głosami"} file={require('../../assets/speakingHead.png')} onPress={navigateDefautlVoiceSettings} />
+        <IconButton text={"Subskrypcja"} file={require('../../assets/payment.png')} onPress={() => console.log('goto subskrypcja')} />
+        <IconButton text={"Regulamin"} file={require('../../assets/statute.png')} onPress={() => console.log('goto regulamin')} />
       </Layout>
     </>
   );
