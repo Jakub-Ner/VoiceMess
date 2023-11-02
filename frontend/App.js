@@ -1,5 +1,6 @@
 import Contacts from "./src/screens/Contacts";
 import Settings from "./src/screens/Settings";
+import DefaultVoiceSettings from "./src/screens/DefaultVoiceSettings";
 
 import * as eva from "@eva-design/eva";
 
@@ -25,7 +26,7 @@ export default function App() {
     const theme = colorTheme === "dark" ? eva.dark : eva.light
     return (
         <ApplicationProvider {...eva} theme={theme}>
-            <AppNavigator/>
+            <DefaultVoiceSettings/>
         </ApplicationProvider>
     )
 }
