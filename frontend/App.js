@@ -28,5 +28,4 @@ export default function App() {
             <AppNavigator/>
         </ApplicationProvider>
     )
-
 }

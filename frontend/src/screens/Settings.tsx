@@ -9,15 +9,18 @@ export default function Settings({navigation}) {
         <Image source={require('../../assets/person.png')} style={styles.image}/>
         <Text category='h1' style={{marginBottom: '20%'}}>Adam Kowalski</Text>
 
-        <Button style={styles.button}>
-          <Text style={styles.text}>Zarządzaj głosami</Text>
-        </Button>
-        <Button style={styles.button}>
-          <Text style={styles.text}>Subskrypcja</Text>
-        </Button>
-        <Button style={styles.button}>
-          <Text style={styles.text}>Regulamin</Text>
-        </Button>
+            <Button style={styles.button}>
+                {evaProps => <Text {...evaProps} style={{fontSize: 22}}>⇦ Ustawienia profilu</Text>}
+            </Button>
+            <Button style={styles.button}>
+                {evaProps => <Text {...evaProps} style={{fontSize: 22}}>Zarządzaj głosami ➪</Text>}
+            </Button>
+            <Button style={styles.button}>
+                {evaProps => <Text {...evaProps} style={{fontSize: 22}}>Subskrypcja ➪</Text>}
+            </Button>
+            <Button style={styles.button}>
+                {evaProps => <Text {...evaProps} style={{fontSize: 22}}>Regulamin ➪</Text>}
+            </Button>
       </Layout>
     </>
   );
