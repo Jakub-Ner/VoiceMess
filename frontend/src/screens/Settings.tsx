@@ -4,16 +4,16 @@ import { Image, StyleSheet } from "react-native";
 import IconButton from "../components/IconButton";
 
 export default function Settings({navigation}) {
-  const navigateToManageVoices = () => {
-    navigation.navigate('manage-voices');
-  };
+    const navigateDefautlVoiceSettings = () => {
+        navigation.navigate('defaultVoiceSettings');
+    };
   return (
     <>
       <Layout style={{flex: 1, alignItems: 'center', marginTop: '8%'}}>
         <Image source={require('../../assets/person.png')} style={styles.image}/>
         <Text category='h1' style={{marginBottom: '20%'}}>Adam Kowalski</Text>
 
-        <IconButton text={"Zarządzaj głosami"} file={require('../../assets/person.png')} onPress={navigateToManageVoices} />
+        <IconButton text={"Zarządzaj głosami"} file={require('../../assets/person.png')} onPress={navigateDefautlVoiceSettings} />
         <IconButton text={"Subskrypcja"} file={require('../../assets/person.png')} onPress={() => console.log('goto subskrypcja')} />
         <IconButton text={"Regulamin"} file={require('../../assets/person.png')} onPress={() => console.log('goto regulamin')} />
       </Layout>

@@ -1,5 +1,6 @@
 import Contacts from "./src/screens/Contacts";
 import Settings from "./src/screens/Settings";
+import DefaultVoiceSettings from "./src/screens/DefaultVoiceSettings";
 
 import * as eva from "@eva-design/eva";
 
@@ -18,6 +19,7 @@ const AppNavigator = () => (
             <Screen name='contact' component={Contacts}/>
             <Screen name='settings' component={Settings}/>
             <Screen name='manage-voices' component={ManageVoices}/>
+            <Screen name='defaultVoiceSettings' component={DefaultVoiceSettings}/>
         </Navigator>
     </NavigationContainer>
 );
