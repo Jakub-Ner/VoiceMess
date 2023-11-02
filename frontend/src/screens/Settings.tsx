@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, Layout, Text } from '@ui-kitten/components';
+import { Layout, Text } from '@ui-kitten/components';
 import { Image, StyleSheet } from "react-native";
+import IconButton from "../components/IconButton";
 
 export default function Settings({navigation}) {
     const navigateDefautlVoiceSettings = () => {
@@ -12,15 +13,9 @@ export default function Settings({navigation}) {
         <Image source={require('../../assets/person.png')} style={styles.image}/>
         <Text category='h1' style={{marginBottom: '20%'}}>Adam Kowalski</Text>
 
-            <Button style={styles.button} onPress={navigateDefautlVoiceSettings}>
-                {evaProps => <Text {...evaProps} style={{fontSize: 22}}>Zarządzaj głosami ➪</Text>}
-            </Button>
-            <Button style={styles.button}>
-                {evaProps => <Text {...evaProps} style={{fontSize: 22}}>Subskrypcja ➪</Text>}
-            </Button>
-            <Button style={styles.button}>
-                {evaProps => <Text {...evaProps} style={{fontSize: 22}}>Regulamin ➪</Text>}
-            </Button>
+        <IconButton text={"Zarządzaj głosami"} file={require('../../assets/person.png')} onPress={navigateDefautlVoiceSettings} />
+        <IconButton text={"Subskrypcja"} file={require('../../assets/person.png')} onPress={() => console.log('goto subskrypcja')} />
+        <IconButton text={"Regulamin"} file={require('../../assets/person.png')} onPress={() => console.log('goto regulamin')} />
       </Layout>
     </>
   );
