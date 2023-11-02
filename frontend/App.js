@@ -7,6 +7,7 @@ import {ApplicationProvider} from "@ui-kitten/components";
 import {Appearance} from "react-native";
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import ManageVoices from "./src/screens/ManageVoices";
 
 
 const {Navigator, Screen} = createStackNavigator();
@@ -16,6 +17,7 @@ const AppNavigator = () => (
         <Navigator screenOptions={{headerShown: false}}>
             <Screen name='contact' component={Contacts}/>
             <Screen name='settings' component={Settings}/>
+            <Screen name='manage-voices' component={ManageVoices}/>
         </Navigator>
     </NavigationContainer>
 );
