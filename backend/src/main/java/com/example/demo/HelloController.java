@@ -5,10 +5,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController // This means endpoint returns a JSON response
 public class HelloController {
+    private class Message {
+        public String message;
+        public String author;
 
-    @GetMapping("/") // GET request with path "/"
-    public String index() {
-        return "Greetings from Spring Boot!";
+        public Message(String message) {
+            this.message = message;
+            author = "Anonymous";
+        }
     }
-
+    @GetMapping("/")
+    public Message index() {
+        return new Message("Hello World!");
+    }
 }
