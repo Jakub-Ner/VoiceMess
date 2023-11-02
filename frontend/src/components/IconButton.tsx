@@ -12,7 +12,7 @@ export default function IconButton(props: {
   return (
     <Button style={styles.button} accessoryLeft={() => renderIcon(file)} onPress={onPress}>
       {evaProps =>
-        <Text {...evaProps} style={{fontSize: 22, marginLeft: 20}}>{text} ➪</Text>}
+        <Text {...evaProps} style={{fontSize: 22, marginLeft: 20}}>{text}</Text>}
     </Button>
   )
 };
@@ -27,8 +27,6 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     justifyContent: 'flex-start',
-    backgroundColor: 'white',
-    borderRadius: 90,
   },
   button: {
     justifyContent: 'flex-start',

@@ -3,7 +3,6 @@ import { Radio, RadioGroup, Button, Layout, Text } from '@ui-kitten/components';
 import { Image, StyleSheet } from "react-native";
 
 
-
 export default function DefaultVoiceSettings() {
 
     const [selectedIndex, setSelectedIndex] = React.useState(0);

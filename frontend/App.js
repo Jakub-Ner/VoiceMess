@@ -9,6 +9,7 @@ import {Appearance} from "react-native";
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import ManageVoices from "./src/screens/ManageVoices";
+import FriendsSettings from "./src/screens/FriendSettings";
 
 
 const {Navigator, Screen} = createStackNavigator();
@@ -20,6 +21,7 @@ const AppNavigator = () => (
             <Screen name='settings' component={Settings}/>
             <Screen name='manage-voices' component={ManageVoices}/>
             <Screen name='defaultVoiceSettings' component={DefaultVoiceSettings}/>
+            <Screen name='friendsSettings' component={FriendsSettings}/>
         </Navigator>
     </NavigationContainer>
 );
