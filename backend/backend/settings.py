@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "vocoders.apps.VocodersConfig",
     "customer.apps.CustomerConfig",
+    "contacts.apps.ContactsConfig",
 ]
 
 MIDDLEWARE = [
