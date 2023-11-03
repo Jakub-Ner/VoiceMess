@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 djangorestframework = "==3.14.0"
 django = "==4.2.7"
+tzdata = "*"
 
 [dev-packages]
 
