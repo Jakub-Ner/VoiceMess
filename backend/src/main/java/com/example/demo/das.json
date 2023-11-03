@@ -1,0 +1,28 @@
+{
+  "detail": [
+    {
+      "loc": [
+        "body",
+        "text"
+      ],
+      "msg": "field required",
+      "type": "value_error.missing"
+    },
+    {
+      "loc": [
+        "body",
+        "model_id"
+      ],
+      "msg": "field required",
+      "type": "value_error.missing"
+    },
+    {
+      "loc": [
+        "body",
+        "voice_settings"
+      ],
+      "msg": "field required",
+      "type": "value_error.missing"
+    }
+  ]
+}

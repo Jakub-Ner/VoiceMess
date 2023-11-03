@@ -1,9 +1,10 @@
 package com.example.demo;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 @RestController // This means endpoint returns a JSON response
+@RequestMapping("/test")
 public class HelloController {
     private class Message {
         public String message;
@@ -18,4 +19,5 @@ public class HelloController {
     public Message index() {
         return new Message("Hello World!");
     }
+
 }
