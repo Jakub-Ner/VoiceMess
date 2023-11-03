@@ -13,3 +13,4 @@ class CustomerViewSet(viewsets.ModelViewSet):
     serializer_class = CustomerSerializer
     queryset = Customer.objects.all()
     # permission_classes = [permissions.IsAuthenticated]
+
