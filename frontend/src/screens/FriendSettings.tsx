@@ -10,7 +10,7 @@ export default function FriendsSettings({route, navigation}) {
 
   return (
     <>
-      <Layout style={{flex: 1, alignItems: 'center', marginTop: '8%'}}>
+      <Layout style={{flex: 1, alignItems: 'center',}}>
         <Image source={require('../../assets/person.png')} style={styles.image}/>
         <Text category='h1' style={{marginBottom: '20%'}}>{name}</Text>
         <Select

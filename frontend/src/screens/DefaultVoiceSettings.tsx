@@ -15,7 +15,7 @@ export default function DefaultVoiceSettings() {
 
   return (
     <>
-      <Layout style={{flex: 1, alignItems: 'flex-start', padding: '10%', marginTop: '8%'}}>
+      <Layout style={{flex: 1, alignItems: 'flex-start', padding: '10%'}}>
         <Text category='h4' style={{marginBottom: '4%'}}>Moje głosy</Text>
         <RadioGroup
           selectedIndex={selectedIndex}
