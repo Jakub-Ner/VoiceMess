@@ -8,6 +8,7 @@ import FriendsSettings from "./src/screens/FriendSettings";
 import Contacts from "./src/screens/Contacts";
 import Settings from "./src/screens/Settings";
 import DefaultVoiceSettings from "./src/screens/DefaultVoiceSettings";
+import useGetRequest from "./src/hooks/useGetRequest";
 
 const {Navigator, Screen} = createStackNavigator();
 
@@ -23,6 +24,7 @@ const AppNavigator = () => (
 );
 
 export default function App() {
+    useGetRequest();
     const colorTheme = Appearance.getColorScheme();
     const theme = colorTheme === "dark" ? eva.dark : eva.light
     return (
