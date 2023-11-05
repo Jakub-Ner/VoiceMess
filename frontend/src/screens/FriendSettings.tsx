@@ -1,17 +1,21 @@
 import React from 'react';
-import { Layout, Text, Select, SelectItem, IndexPath } from '@ui-kitten/components';
+import { IndexPath, Layout, Select, SelectItem, Text } from '@ui-kitten/components';
 import { Image, StyleSheet } from "react-native";
-import IconButton from "../components/IconButton";
+import useGetRequest from "../hooks/useGetRequest";
 
 export default function FriendsSettings({route, navigation}) {
-  const {name} = route.params;
+  const {name, picture} = route.params;
   const [selectedIndex, setSelectedIndex] = React.useState<IndexPath | IndexPath[]>(new IndexPath(0));
-  const vocoders = ['Krzysztof Ibisz', 'Mama', 'Piotr Fronczewski'];
 
+  const data = useGetRequest("http://192.168.14.7:8080/api/v1/vocoder/"); // TODO use const IP from config and search by facebook_id
+  if (!data) {
+    return <></>;
+  }
+  const vocoders = data.map((vocoder) => vocoder.name);
   return (
     <>
       <Layout style={{flex: 1, alignItems: 'center',}}>
-        <Image source={require('../../assets/person.png')} style={styles.image}/>
+        <Image source={picture ? {uri: picture} : require('../../assets/person.png')} style={styles.image}/>
         <Text category='h1' style={{marginBottom: '20%'}}>{name}</Text>
         <Select
           value={vocoders[selectedIndex.row]}
