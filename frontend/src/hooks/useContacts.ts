@@ -5,6 +5,7 @@ interface IListItem {
   title: string;
   description: string;
 }
+// TODO: Get pictures from contacts
 export const useContacts = () => {
   const [contacts, setContacts] = useState([]);
 
