@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function useGetRequest(url = 'http://192.168.14.225:8080') {
+export default function useGetRequest(url = 'http://192.168.1.15:8080/api/v1/contacts/') {
   const [data, setData] = useState(null);
   useEffect(() => {
     fetch(url)
