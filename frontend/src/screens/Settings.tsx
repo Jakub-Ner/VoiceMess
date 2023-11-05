@@ -3,15 +3,17 @@ import { Layout, Text } from '@ui-kitten/components';
 import { Image, StyleSheet } from "react-native";
 import IconButton from "../components/IconButton";
 
-export default function Settings({navigation}) {
+export default function Settings({route, navigation}) {
+  const {name, picture} = route.params;
+
     const navigateDefautlVoiceSettings = () => {
         navigation.navigate('defaultVoiceSettings');
     };
   return (
     <>
       <Layout style={{flex: 1, alignItems: 'center'}}>
-        <Image source={require('../../assets/person.png')} style={styles.image}/>
-        <Text category='h1' style={{marginBottom: '20%'}}>Adam Kowalski</Text>
+        <Image source={picture ? {uri: picture} : require('../../assets/person.png')} style={styles.image}/>
+        <Text category='h1' style={{marginBottom: '20%'}}>{name}</Text>
 
         <IconButton text={"Zarządzaj głosami"} file={require('../../assets/speakingHead.png')} onPress={navigateDefautlVoiceSettings} />
         <IconButton text={"Subskrypcja"} file={require('../../assets/payment.png')} onPress={() => console.log('goto subskrypcja')} />
