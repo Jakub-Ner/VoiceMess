@@ -10,12 +10,16 @@ interface IListItem {
 }
 
 export default function Contacts({route, navigation}) {
-  const {facebookId, name, picture} = route.params;
+  // const {facebookId, name, picture} = route.params;
+  const IP = route.params.IP
+  const facebookId = "fbId"
+  const name = "Agata Belczyk"
+  const picture = "http://cokolwiek_mozesz_dac.jpg"
   const body = JSON.stringify({
-    facebook_id: facebookId,
+    facebook_id: "faceborokId",
   });
 
-  const data = usePostRequest(body, "http://192.168.14.7:8080/api/v1/customer/"); // TODO use const IP from config and search by facebook_id
+  const data = usePostRequest(body, `${IP}/api/v1/customer/`); // TODO use const IP from config and search by facebook_id
 
   const contacts = useContacts();
   const [value, setValue] = useState('');
