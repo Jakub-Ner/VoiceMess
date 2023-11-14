@@ -16,15 +16,15 @@ import LoginScreen from "./src/screens/LoginScreen";
 
 
 const {Navigator, Screen} = createStackNavigator();
-
+const IP = "http://192.168.43.34:8080"
 const AppNavigator = () => (
     <NavigationContainer>
         <Navigator screenOptions={{headerShown: false}}>
             <Screen name='login' component={LoginScreen}/>
-            <Screen name='contacts' component={Contacts}/>
-            <Screen name='settings' component={Settings}/>
-            <Screen name='defaultVoiceSettings' component={DefaultVoiceSettings}/>
-            <Screen name='friendsSettings' component={FriendsSettings}/>
+            <Screen name='contacts' initialParams={{IP: IP}} component={Contacts}/>
+            <Screen name='settings' initialParams={{IP: IP}} component={Settings}/>
+            <Screen name='defaultVoiceSettings' initialParams={{IP: IP}} component={DefaultVoiceSettings}/>
+            <Screen name='friendsSettings' initialParams={{IP: IP}} component={FriendsSettings}/>
         </Navigator>
     </NavigationContainer>
 );

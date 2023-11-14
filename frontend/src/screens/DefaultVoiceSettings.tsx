@@ -4,9 +4,10 @@ import { StyleSheet, View } from "react-native";
 import * as DocumentPicker from 'expo-document-picker';
 import useGetRequest from "../hooks/useGetRequest";
 
-export default function DefaultVoiceSettings() {
+export default function DefaultVoiceSettings({route, navigation}) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedFile, setSelectedFile] = useState(null);
+  const IP = route.params.IP
 
   const pickedFile = async () => {
     let result = await DocumentPicker.getDocumentAsync({});
@@ -14,7 +15,7 @@ export default function DefaultVoiceSettings() {
     setSelectedFile(result);
   }
 
-  const data = useGetRequest("http://192.168.14.7:8080/api/v1/vocoder/"); // TODO use const IP from config and search by facebook_id
+  const data = useGetRequest("${IP}/api/v1/vocoder/"); // TODO use const IP from config and search by facebook_id
   if (!data) {
     return <></>;
   }
@@ -49,7 +50,8 @@ export default function DefaultVoiceSettings() {
                 Wybrano: <Text style={{fontWeight: 'bold', fontSize: 22}}>{selectedFile.name}</Text>
               </Text>
               <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                <Button style={styles.button} onPress={() => console.log("Send sample")}> // TODO: Send sample POST /api/v1/vocoder/
+                {/*// TODO: Send sample POST /api/v1/vocoder/*/}
+                <Button style={styles.button} onPress={() => console.log("Send sample")}>
                   <Text style={{fontSize: 22}}>Wyślij próbkę</Text>
                 </Button>
                 <Button style={styles.button} onPress={pickedFile}>

@@ -5,9 +5,10 @@ import useGetRequest from "../hooks/useGetRequest";
 
 export default function FriendsSettings({route, navigation}) {
   const {name, picture} = route.params;
-  const [selectedIndex, setSelectedIndex] = React.useState<IndexPath | IndexPath[]>(new IndexPath(0));
+  const IP = route.params.IP
 
-  const data = useGetRequest("http://192.168.14.7:8080/api/v1/vocoder/"); // TODO use const IP from config and search by facebook_id
+  const [selectedIndex, setSelectedIndex] = React.useState<IndexPath | IndexPath[]>(new IndexPath(0));
+  const data = useGetRequest("${IP}/api/v1/vocoder/"); // TODO use const IP from config and search by facebook_id
   if (!data) {
     return <></>;
   }
@@ -31,7 +32,6 @@ export default function FriendsSettings({route, navigation}) {
     </>
   );
 }
-
 
 const styles = StyleSheet.create({
   text: {

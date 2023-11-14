@@ -5,6 +5,7 @@ import IconButton from "../components/IconButton";
 
 export default function Settings({route, navigation}) {
   const {name, picture} = route.params;
+  const IP = route.params.IP
 
     const navigateDefautlVoiceSettings = () => {
         navigation.navigate('defaultVoiceSettings');
