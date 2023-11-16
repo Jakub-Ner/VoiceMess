@@ -7,6 +7,9 @@ name = "pypi"
 djangorestframework = "==3.14.0"
 django = "==4.2.7"
 tzdata = "*"
+factory-boy = "*"
+elevenlabs = "*"
+django-environ = "*"
 
 [dev-packages]
 
