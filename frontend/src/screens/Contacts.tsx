@@ -12,11 +12,11 @@ interface IListItem {
 export default function Contacts({route, navigation}) {
   // const {facebookId, name, picture} = route.params;
   const IP = route.params.IP
-  const facebookId = "fbId"
+  const facebookId = "faceborokId"
   const name = "Agata Belczyk"
   const picture = "http://cokolwiek_mozesz_dac.jpg"
   const body = JSON.stringify({
-    facebook_id: "faceborokId",
+    facebook_id: facebookId,
   });
 
   const data = usePostRequest(body, `${IP}/api/v1/customer/`); // TODO use const IP from config and search by facebook_id
@@ -25,7 +25,7 @@ export default function Contacts({route, navigation}) {
   const [value, setValue] = useState('');
   const [filter, setFilter] = useState('');
   const navigateSettings = () => {
-    navigation.navigate('settings', {name: name, picture: picture});
+    navigation.navigate('settings', {name: name, picture: picture, facebookId: facebookId});
   };
 
   const renderPerson = ({name}: { name: string }): React.ReactElement => (
