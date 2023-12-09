@@ -30,7 +30,6 @@ const AppNavigator = () => (
 );
 
 export default function App() {
-    useGetRequest();
     const colorTheme = Appearance.getColorScheme();
     const theme = colorTheme === "dark" ? eva.dark : eva.light
     return (

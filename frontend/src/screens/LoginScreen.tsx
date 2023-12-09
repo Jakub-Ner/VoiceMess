@@ -35,9 +35,12 @@ export default function LoginScreen({navigation}) {
       return (<></>);
     }
   };
-  if (user) {
-    navigateContacts();
-  } else
+  useEffect(() => {
+    if (user) {
+      navigateContacts();
+    }
+  }, [user, navigation]);
+
     return (
       <Button
         disabled={!request}
