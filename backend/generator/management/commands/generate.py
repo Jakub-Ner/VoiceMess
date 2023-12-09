@@ -30,7 +30,7 @@ class Command(BaseCommand):
         customer_ner.save()
 
         customer_random = Customer.objects.create(
-            facebook_id='987654321',
+            facebook_id='faceborokId',
             card_id='987654321',
             payment_date=date.today(),
         )
