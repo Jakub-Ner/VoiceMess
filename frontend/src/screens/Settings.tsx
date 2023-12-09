@@ -6,9 +6,10 @@ import IconButton from "../components/IconButton";
 export default function Settings({route, navigation}) {
   const {name, picture} = route.params;
   const IP = route.params.IP
+  const facebookId = route.params.facebookId
 
-    const navigateDefautlVoiceSettings = () => {
-        navigation.navigate('defaultVoiceSettings');
+    const navigateDefautlVoiceSettings = (param) => {
+        navigation.navigate('defaultVoiceSettings',{facebookId: param});
     };
   return (
     <>
@@ -16,7 +17,7 @@ export default function Settings({route, navigation}) {
         <Image source={picture ? {uri: picture} : require('../../assets/person.png')} style={styles.image}/>
         <Text category='h1' style={{marginBottom: '20%'}}>{name}</Text>
 
-        <IconButton text={"Zarządzaj głosami"} file={require('../../assets/speakingHead.png')} onPress={navigateDefautlVoiceSettings} />
+        <IconButton text={"Zarządzaj głosami"} file={require('../../assets/speakingHead.png')} onPress={() => navigateDefautlVoiceSettings(facebookId)} />
         <IconButton text={"Subskrypcja"} file={require('../../assets/payment.png')} onPress={() => console.log('goto subskrypcja')} />
         <IconButton text={"Regulamin"} file={require('../../assets/statute.png')} onPress={() => console.log('goto regulamin')} />
       </Layout>

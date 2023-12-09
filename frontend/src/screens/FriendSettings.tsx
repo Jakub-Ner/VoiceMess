@@ -8,7 +8,7 @@ export default function FriendsSettings({route, navigation}) {
   const IP = route.params.IP
 
   const [selectedIndex, setSelectedIndex] = React.useState<IndexPath | IndexPath[]>(new IndexPath(0));
-  const data = useGetRequest("${IP}/api/v1/vocoder/"); // TODO use const IP from config and search by facebook_id
+  const data = useGetRequest(`${IP}/api/v1/vocoder/`);
   if (!data) {
     return <></>;
   }
@@ -19,6 +19,7 @@ export default function FriendsSettings({route, navigation}) {
         <Image source={picture ? {uri: picture} : require('../../assets/person.png')} style={styles.image}/>
         <Text category='h1' style={{marginBottom: '20%'}}>{name}</Text>
         <Select
+            // @ts-ignore
           value={vocoders[selectedIndex.row]}
           selectedIndex={selectedIndex}
           style={{width: '80%', height: '10%'}}
