@@ -51,9 +51,9 @@ export default function Contacts({route, navigation}) {
     }
     return (
       <ListItem
-        title={item.title}
+        title={() => <Text>{item.title}</Text>}
         style={{justifyContent: 'center', alignItems: 'center'}}
-        description={'description'}
+        description={item.description}
         accessoryLeft={renderPerson({name: item.title})}
         accessoryRight={renderItemAccessory}
       />
