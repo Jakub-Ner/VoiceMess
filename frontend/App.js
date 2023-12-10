@@ -14,7 +14,7 @@ import LoginScreen from "./src/screens/LoginScreen";
 
 
 const {Navigator, Screen} = createStackNavigator();
-const IP = "http://192.168.19.21:8080/"
+const IP = "http://192.168.19.118:8080/"
 const AppNavigator = () => (
     <NavigationContainer>
         <Navigator screenOptions={{headerShown: false}}>

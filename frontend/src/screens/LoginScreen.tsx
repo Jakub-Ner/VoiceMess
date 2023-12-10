@@ -8,59 +8,22 @@ import axios from "axios";
 WebBrowser.maybeCompleteAuthSession();
 
 export default function LoginScreen({navigation}) {
-  const IP = "http://192.168.19.21:8080/"
+  const IP = "http://192.168.19.118:8080/"
 
-  var myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-
-  var raw = JSON.stringify({
+  var body = JSON.stringify({
     message: "Witaj Świecie",
     eleven_labs_id: "GBv7mTt0atIp3Br8iCZE"
   });
 
-  var requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    body: raw,
-    redirect: 'follow'
-  };
-
-  var config = {
-    method: 'POST',
-    url: 'http://192.168.19.21:8080/api/v1/vocoder/generate/',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body : raw
-  };
-
-  // axios(config)
-  //   .then(function (response) {
-  //     console.log(JSON.stringify(response.data));
-  //   })
-  //   .catch(function (error) {
-  //     console.log(JSON.stringify(error, null, 2));
-  //
-  //   });
-
-
   Buffer = require('buffer').Buffer;
-  axios.post(IP + "api/v1/vocoder/generate/", raw,{
+  axios.post(IP + "api/v1/vocoder/generate/", body,{
     responseType: 'arraybuffer',
     headers: {
       'Content-Type': 'application/json'
     },
-    // redirect: 'follow',
   }).then(response => Buffer.from(response.data, 'binary').toString('base64'))
     .then(result => useSaveToFile("test.mp3", result))
     .catch(error => console.log('error dupa', JSON.stringify(error, null, 2)));
-
-
-
-  // fetch(IP + "api/v1/vocoder/generate/", requestOptions)
-  //   .then(response => response.text())
-  //   .then(result => useSaveToFile("test.wav", result))
-  //   .catch(error => console.log('error dupa', error));
 
 
   const [user, setUser] = useState(null);

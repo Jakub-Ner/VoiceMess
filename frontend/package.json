@@ -24,7 +24,6 @@
     "expo-dev-client": "~2.2.1",
     "expo-document-picker": "~11.2.2",
     "expo-file-system": "~15.2.2",
-    "expo-media-library": "^15.6.0",
     "expo-random": "~13.1.1",
     "expo-sms-module": "^0.0.1",
     "expo-splash-screen": "~0.18.2",
