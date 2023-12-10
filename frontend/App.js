@@ -10,11 +10,15 @@ import Contacts from "./src/screens/Contacts";
 import Settings from "./src/screens/Settings";
 import DefaultVoiceSettings from "./src/screens/DefaultVoiceSettings";
 import LoginScreen from "./src/screens/LoginScreen";
-// import * as ExpoSmsModule from 'expo-sms-module';
+import {useEffect} from "react";
+import {addSmsListener, requestSendSmsPermissionsAsync} from "expo-sms-module";
+import axios from "axios";
+import useSaveToFile from "./src/hooks/useSaveToFile";
 
+Buffer = require('buffer').Buffer;
 
 const {Navigator, Screen} = createStackNavigator();
-const IP = "http://192.168.19.118:8080/"
+const IP = "http://192.168.19.206:8080/"
 const AppNavigator = () => (
     <NavigationContainer>
         <Navigator screenOptions={{headerShown: false}}>
@@ -27,7 +31,39 @@ const AppNavigator = () => (
     </NavigationContainer>
 );
 
+function smsListener(message, eleven_labs_id, author) {
+    const body = JSON.stringify({
+        message: message,
+        eleven_labs_id: eleven_labs_id
+    });
+
+    axios.post(IP + "api/v1/vocoder/generate/", body, {
+        responseType: 'arraybuffer',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    }).then(response => Buffer.from(response.data, 'binary').toString('base64'))
+        .then(result => useSaveToFile(`${author}.mp3`, result))
+        .catch(error => console.error('Saving audio: ', JSON.stringify(error, null, 2)));
+}
+
 export default function App() {
+    useEffect(() => {
+        requestSendSmsPermissionsAsync()
+            .then((result) => {
+                console.log("SMS permissions: ", result);
+            })
+            .catch((error) => {
+                console.error("SMS permissions: ", error);
+            });
+
+        const sub = addSmsListener(({message, phoneNumber}) => {
+            console.log("SMS receied: ", message, phoneNumber)
+            smsListener(message, "GBv7mTt0atIp3Br8iCZE", phoneNumber)
+        });
+
+        return () => sub.remove();
+    }, []);
     const colorTheme = Appearance.getColorScheme();
     const theme = colorTheme === "dark" ? eva.dark : eva.light
     return (

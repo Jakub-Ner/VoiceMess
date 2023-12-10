@@ -2,28 +2,10 @@ import { useEffect, useState } from "react";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
 import * as Facebook from "expo-auth-session/providers/facebook";
 import * as WebBrowser from "expo-web-browser";
-import useSaveToFile from "../hooks/useSaveToFile";
-import axios from "axios";
 
 WebBrowser.maybeCompleteAuthSession();
 
 export default function LoginScreen({navigation}) {
-  const IP = "http://192.168.19.118:8080/"
-
-  var body = JSON.stringify({
-    message: "Witaj Świecie",
-    eleven_labs_id: "GBv7mTt0atIp3Br8iCZE"
-  });
-
-  Buffer = require('buffer').Buffer;
-  axios.post(IP + "api/v1/vocoder/generate/", body,{
-    responseType: 'arraybuffer',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-  }).then(response => Buffer.from(response.data, 'binary').toString('base64'))
-    .then(result => useSaveToFile("test.mp3", result))
-    .catch(error => console.log('error dupa', JSON.stringify(error, null, 2)));
 
 
   const [user, setUser] = useState(null);

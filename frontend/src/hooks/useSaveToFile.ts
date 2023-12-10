@@ -18,11 +18,11 @@ export default function (filename, content) {
         { shouldPlay: true }
       );
     }).catch(error => {
-      console.error(error);
+      console.error("Playing audio: ", error);
     });
 
   }).catch(error => {
-    console.error(error);
+    console.error("Saving audio: ", error);
   });
 }
 
