@@ -3,6 +3,7 @@ import { Button, ButtonGroup, Input, Layout, List, ListItem, Text, } from '@ui-k
 import { Image, StyleSheet, TouchableHighlight, TouchableOpacity } from "react-native";
 import { useContacts } from "../hooks/useContacts";
 import usePostRequest from "../hooks/usePostRequest";
+import { playAudio } from "../utils";
 
 interface IListItem {
   title: string;
@@ -49,27 +50,28 @@ export default function Contacts({route, navigation}) {
     if (filter && !item.title.includes(filter)) {
       return <></>;
     }
+
+    const renderItemAccessory = (): React.ReactElement => (
+      <ButtonGroup>
+        <Button size='tiny'>
+          ▷
+        </Button>
+        <Button size='tiny' onPress={() => playAudio(`${item.description}.mp3`)} >
+          ↻
+        </Button>
+      </ButtonGroup>
+    );
+
     return (
       <ListItem
-        title={item.title}
+        title={() => <Text>{item.title}</Text>}
         style={{justifyContent: 'center', alignItems: 'center'}}
-        description={'description'}
+        description={item.description}
         accessoryLeft={renderPerson({name: item.title})}
         accessoryRight={renderItemAccessory}
       />
     );
   }
-
-  const renderItemAccessory = (): React.ReactElement => (
-    <ButtonGroup>
-      <Button size='tiny'>
-        ▷
-      </Button>
-      <Button size='tiny'>
-        ↻
-      </Button>
-    </ButtonGroup>
-  );
 
   if (!data) {
     return <></>;
