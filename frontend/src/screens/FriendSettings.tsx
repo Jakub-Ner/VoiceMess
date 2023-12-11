@@ -1,14 +1,15 @@
 import React from 'react';
 import { IndexPath, Layout, Select, SelectItem, Text } from '@ui-kitten/components';
 import { Image, StyleSheet } from "react-native";
-import useGetRequest from "../hooks/useGetRequest";
+import useRequest from "../hooks/useRequest";
 
 export default function FriendsSettings({route, navigation}) {
   const {name, picture} = route.params;
   const IP = route.params.IP
+  const facebookId = route.params.facebookId
 
   const [selectedIndex, setSelectedIndex] = React.useState<IndexPath | IndexPath[]>(new IndexPath(0));
-  const data = useGetRequest(`${IP}/api/v1/vocoder/`);
+  const data = useRequest(`${IP}/api/v1/vocoder/list/${facebookId}`,'GET');
   if (!data) {
     return <></>;
   }
