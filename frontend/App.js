@@ -10,7 +10,7 @@ import Contacts from "./src/screens/Contacts";
 import Settings from "./src/screens/Settings";
 import DefaultVoiceSettings from "./src/screens/DefaultVoiceSettings";
 
-import useGetRequest from "./src/hooks/useGetRequest";
+import useRequest from "./src/hooks/useRequest";
 import LoginScreen from "./src/screens/LoginScreen";
 // import * as ExpoSmsModule from 'expo-sms-module';
 

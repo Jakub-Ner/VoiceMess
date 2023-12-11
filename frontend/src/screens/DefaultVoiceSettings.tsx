@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { Button, Divider, Layout, Radio, RadioGroup, Text } from '@ui-kitten/components';
 import { StyleSheet, View } from "react-native";
 import * as DocumentPicker from 'expo-document-picker';
-import useGetRequest from "../hooks/useGetRequest";
-import {components} from "@eva-design/eva/mapping";
+import useRequest from "../hooks/useRequest";
 
 export default function DefaultVoiceSettings({route, navigation}) {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -17,11 +16,20 @@ export default function DefaultVoiceSettings({route, navigation}) {
     setSelectedFile(result);
   }
 
-  const data = useGetRequest(`${IP}/api/v1/vocoder/list/${facebookId}`);
+  const data = useRequest(`${IP}/api/v1/vocoder/list/${facebookId}`,'GET');
   if (!data) {
     return <></>;
   }
   const vocoders = data.map((vocoder) => vocoder.name);
+
+  console.log(vocoders)
+
+  const triggerDelete = (index) => {
+    fetch(`${IP}/api/v1/vocoder/${data[index].eleven_labs_id}/`, {
+      method: 'DELETE',
+    })
+  }
+
   return (
     <>
       <Layout style={{flex: 1, alignItems: 'flex-start', padding: '10%'}}>
@@ -42,7 +50,9 @@ export default function DefaultVoiceSettings({route, navigation}) {
         </RadioGroup>
           <View style={{backgroundColor: 'pink'}}>
         {vocoders.map((vocoderName, index) => (
-            <Button style={styles.buttonRemove} key={index} onPress={() => console.log(vocoderName)}>
+            <Button style={styles.buttonRemove}
+                    key={index}
+                    onPress={()=> triggerDelete(index)}>
               {evaProps => <Text style={{fontSize: 22}} {...evaProps}>xcghchc</Text>}
             </Button>
             )
@@ -90,25 +100,12 @@ const styles = StyleSheet.create({
     height: '50%',
     width:'80%',
     backgroundColor: 'green'
-  // justifyContent: 'space-between', /* Dodano justify-content */
 },
   text: {
-    fontWeight: 'bold', // Ustawienie pogrubionej czcionki[
+    fontWeight: 'bold',
     textAlign: 'left',
-    // fontSize: 16
   },
-  // image: {
-  //   width: '100%',
-  //   height: '100%',
-  //   borderRadius: 50,
-  //   margin: 20,
-  //   justifyContent: 'center',
-  //   alignSelf: 'center',
-  //   backgroundColor: 'white'
-  // },
   button: {
-    // marginVertical: 7,
-    // flex: 1,
     marginStart: '5%',
     width: '80%',
     marginRight: 'auto',

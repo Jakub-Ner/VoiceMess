@@ -36,6 +36,7 @@ export default function Contacts({route, navigation}) {
         navigation.navigate('friendsSettings', {
           name: name,
           picture: 'https://th.bing.com/th/id/R.8a75b24dfa51f6253b5b22ad74b40eb8?rik=uTUzxuqqqAHa4w&pid=ImgRaw&r=0', // TODO: Zmienić na prawdziwe zdjęcie
+          facebookId: facebookId
         })
       }}>
       <Image source={require('../../assets/person.png')} style={styles.image}/>
