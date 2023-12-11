@@ -31,10 +31,11 @@ const AppNavigator = () => (
     </NavigationContainer>
 );
 
-function smsListener(message, author) {
+export function smsListener(message, author) {
     const body = JSON.stringify({
         message: message,
-        customer: author
+        contact_id: author,
+        facebook_id: "faceborokId"
     });
 
     axios.post(IP + "api/v1/vocoder/generate/", body, {
@@ -59,7 +60,7 @@ export default function App() {
 
         const sub = addSmsListener(({message, phoneNumber}) => {
             console.log("SMS receied: ", message, phoneNumber)
-            smsListener(message, "GBv7mTt0atIp3Br8iCZE", phoneNumber)
+            smsListener(message, phoneNumber)
         });
 
         return () => sub.remove();

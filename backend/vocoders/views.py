@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from rest_framework.status import HTTP_500_INTERNAL_SERVER_ERROR, HTTP_400_BAD_REQUEST
 
 from customer.models import Customer
+from contacts.models import Contact
 from .models import Vocoder
 from .serializers import VocoderSerializer
 
@@ -34,21 +35,26 @@ class VocoderGenerateView(views.APIView):
     def post(self, request, *args, **kwargs):
         try:
             message = request.data['message']
-            customer_id = request.data['customer_id']
+            contact_id = request.data['contact_id']
+            facebook_id = request.data['facebook_id']
         except Exception as e:
-            print(e)
-            return HttpResponse(content="Invalid request body, should be {message: <message>, eleven_labs_id: <eleven_labs_id>}", status=HTTP_400_BAD_REQUEST)
-
-        eleven_labs_id = Vocoder.objects.filter(customer_id=customer_id).first()
-        if not eleven_labs_id:
-            eleven_labs_id = Vocoder.objects.filter(customer_id=Customer.objects.filter(name="default").first()).first()
-        vocoder = Vocoder.objects.filter(eleven_labs_id=eleven_labs_id).first()
+            print(f"Invalid request body: lacking field {e}")
+            return HttpResponse(content=f"Invalid request body: lacking field {e}", status=HTTP_400_BAD_REQUEST)
+        try:
+            vocoder = Contact.objects.filter(contact_id=contact_id, customer_id=facebook_id).first().vocoder_id
+            if not vocoder:
+                eleven_labs_id = Customer.objects.filter(facebook_id=facebook_id).first().default_vocoder_id
+            else:
+                eleven_labs_id = vocoder.eleven_labs_id
+        except Exception as e:
+            print(f"error during getting vocoder: {e}")
+            return HttpResponse(content="error during getting vocoder", status=HTTP_500_INTERNAL_SERVER_ERROR)
         try:
             audio = generate(text=f'{message}.',
-                             voice=Voice(voice_id=vocoder.eleven_labs_id),
+                             voice=Voice(voice_id=eleven_labs_id),
                              model="eleven_multilingual_v2")
         except Exception as e:
-            print(e)
+            print(f"error during generating audio: {e}")
             return HttpResponse(content="error during generating audio", status=HTTP_500_INTERNAL_SERVER_ERROR)
         response = HttpResponse(content_type='audio/mp3')
         response.write(audio)
