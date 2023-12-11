@@ -22,7 +22,7 @@ export default function Contacts({route, navigation}) {
 
   const data = usePostRequest(body, `${IP}/api/v1/customer/`); // TODO use const IP from config and search by facebook_id
 
-  const contacts = useContacts();
+  const contacts = useContacts(facebookId, IP);
   const [value, setValue] = useState('');
   const [filter, setFilter] = useState('');
   const navigateSettings = () => {

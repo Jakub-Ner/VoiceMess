@@ -18,7 +18,7 @@ import useSaveToFile from "./src/hooks/useSaveToFile";
 Buffer = require('buffer').Buffer;
 
 const {Navigator, Screen} = createStackNavigator();
-const IP = "http://192.168.19.61:8080/"
+const IP = "http://192.168.19.218:8080/"
 const AppNavigator = () => (
     <NavigationContainer>
         <Navigator screenOptions={{headerShown: false}}>
@@ -31,10 +31,11 @@ const AppNavigator = () => (
     </NavigationContainer>
 );
 
-function smsListener(message, eleven_labs_id, author) {
+export function smsListener(message, author) {
     const body = JSON.stringify({
         message: message,
-        eleven_labs_id: eleven_labs_id
+        contact_id: author,
+        facebook_id: "faceborokId"
     });
 
     axios.post(IP + "api/v1/vocoder/generate/", body, {
@@ -59,7 +60,7 @@ export default function App() {
 
         const sub = addSmsListener(({message, phoneNumber}) => {
             console.log("SMS receied: ", message, phoneNumber)
-            smsListener(message, "GBv7mTt0atIp3Br8iCZE", phoneNumber)
+            smsListener(message, phoneNumber)
         });
 
         return () => sub.remove();
