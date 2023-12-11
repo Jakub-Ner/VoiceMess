@@ -43,13 +43,13 @@ class Command(BaseCommand):
             if i % 2 == 0:
                 Vocoder.objects.create(
                     name=eleven_labs_vocoder.name,
-                    customer=customer_ner,
+                    customer_id=customer_ner,
                     eleven_labs_id=eleven_labs_vocoder.voice_id,
                 ).save()
             else:
                 Vocoder.objects.create(
                     name=eleven_labs_vocoder.name + " 007",
-                    customer=customer_random,
+                    customer_id=customer_random,
                     eleven_labs_id=eleven_labs_vocoder.voice_id,
                 ).save()
         self.stdout.write(self.style.SUCCESS('Successfully generated vocoders'))

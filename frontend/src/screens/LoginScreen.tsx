@@ -6,6 +6,8 @@ import * as WebBrowser from "expo-web-browser";
 WebBrowser.maybeCompleteAuthSession();
 
 export default function LoginScreen({navigation}) {
+
+
   const [user, setUser] = useState(null);
   const [request, response, promptAsync] = Facebook.useAuthRequest({
     clientId: "288958650780252",
@@ -14,6 +16,7 @@ export default function LoginScreen({navigation}) {
   const navigateContacts = () => {
     navigation.navigate('contacts', {facebookId: user.id, name: user.name, picture: user.picture.data.url});
   };
+
 
   useEffect(() => {
     if (response && response.type === "success" && response.authentication) {
@@ -41,13 +44,13 @@ export default function LoginScreen({navigation}) {
     }
   }, [user, navigation]);
 
-    return (
-      <Button
-        disabled={!request}
-        title="Sign in with Facebook"
-        onPress={handlePressAsync}
-      />
-    )
+  return (
+    <Button
+      disabled={!request}
+      title="Sign in with Facebook"
+      onPress={handlePressAsync}
+    />
+  )
 }
 
 function Profile({user}) {

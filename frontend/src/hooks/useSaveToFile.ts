@@ -1,22 +1,21 @@
 import * as FileSystem from 'expo-file-system';
+import { playAudio } from "../utils";
 
+export default function (filename, content) {
+  const fileUri = FileSystem.documentDirectory + filename;
+  FileSystem.writeAsStringAsync(
+    fileUri,
+    content,
+    {
+      encoding: FileSystem.EncodingType.Base64,
+    }
+  ).then(() => {
+    console.log('Saved content:', content.length);
 
-export const useSaveToFile = () => {
-  const fileUri = FileSystem.documentDirectory + 'imageDupa.jpg';
-  FileSystem.downloadAsync(
-    'https://picsum.photos/200/300',
-    fileUri
-  )
-    .then(({uri}) => {
-      console.log('Finished downloading to ', uri);
-    }).catch(error => {
-    console.error(error);
-  });
-
-  FileSystem.readDirectoryAsync(FileSystem.documentDirectory).then((data) => {
-    console.log(data);
+    playAudio(fileUri);
   }).catch(error => {
-    console.error(error);
+    console.error("Saving audio: ", error);
   });
 }
+
 
