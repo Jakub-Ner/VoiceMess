@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Divider, Layout, Radio, RadioGroup, Text } from '@ui-kitten/components';
 import { StyleSheet, View } from "react-native";
 import * as DocumentPicker from 'expo-document-picker';
@@ -16,18 +16,21 @@ export default function DefaultVoiceSettings({route, navigation}) {
     setSelectedFile(result);
   }
 
-  const data = useRequest(`${IP}/api/v1/vocoder/list/${facebookId}`,'GET');
+  const data = useRequest(`${IP}/api/v1/vocoder/list/${facebookId}/`, 'GET');
+
+  let [vocoders, setVocoders] = useState(null);
+  useEffect(() => {
+    setVocoders(data?.map((vocoder) => vocoder.name));
+  }, [data]);
+
   if (!data) {
     return <></>;
   }
-  const vocoders = data.map((vocoder) => vocoder.name);
-
-  console.log(vocoders)
-
   const triggerDelete = (index) => {
     fetch(`${IP}/api/v1/vocoder/${data[index].eleven_labs_id}/`, {
       method: 'DELETE',
     })
+    setVocoders(vocoders.filter((vocoder, i) => i !== index));
   }
 
   return (
@@ -48,12 +51,13 @@ export default function DefaultVoiceSettings({route, navigation}) {
           )
           }
         </RadioGroup>
-          <View style={{backgroundColor: 'pink'}}>
+          <View>
         {vocoders.map((vocoderName, index) => (
             <Button style={styles.buttonRemove}
                     key={index}
+                    appearance={'outline'}
                     onPress={()=> triggerDelete(index)}>
-              {evaProps => <Text style={{fontSize: 22}} {...evaProps}>xcghchc</Text>}
+              {evaProps => <Text {...evaProps}>X</Text>}
             </Button>
             )
         )
@@ -66,26 +70,26 @@ export default function DefaultVoiceSettings({route, navigation}) {
         <Text category='h4' style={{marginBottom: '4%'}}>Sklonuj nowy głos</Text>
 
         {!selectedFile
-            ? (
-                <Button style={{marginVertical: 7}} onPress={pickedFile}>
-                  <Text style={{fontSize: 22}}>Wybierz próbkę</Text>
+          ? (
+            <Button style={{marginVertical: 7}} onPress={pickedFile}>
+              <Text style={{fontSize: 22}}>Wybierz próbkę</Text>
+            </Button>
+          ) : (
+            <>
+              <Text style={{fontSize: 22}}>
+                Wybrano: <Text style={{fontWeight: 'bold', fontSize: 22}}>{selectedFile.name}</Text>
+              </Text>
+              <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                {/*// TODO: Send sample POST /api/v1/vocoder/*/}
+                <Button style={styles.button} onPress={() => console.log("Send sample")}>
+                  <Text style={{fontSize: 22}}>Wyślij próbkę</Text>
                 </Button>
-            ) : (
-                <>
-                  <Text style={{fontSize: 22}}>
-                    Wybrano: <Text style={{fontWeight: 'bold', fontSize: 22}}>{selectedFile.name}</Text>
-                  </Text>
-                  <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                    {/*// TODO: Send sample POST /api/v1/vocoder/*/}
-                    <Button style={styles.button} onPress={() => console.log("Send sample")}>
-                      <Text style={{fontSize: 22}}>Wyślij próbkę</Text>
-                    </Button>
-                    <Button style={styles.button} onPress={pickedFile}>
-                      <Text style={{fontSize: 22}}>Zmień próbkę</Text>
-                    </Button>
-                  </View>
-                </>
-            )}
+                <Button style={styles.button} onPress={pickedFile}>
+                  <Text style={{fontSize: 22}}>Zmień próbkę</Text>
+                </Button>
+              </View>
+            </>
+          )}
       </Layout>
 
     </>
@@ -95,12 +99,11 @@ export default function DefaultVoiceSettings({route, navigation}) {
 
 const styles = StyleSheet.create({
   container: {
-  display: 'flex',
+    display: 'flex',
     flexDirection: 'row',
     height: '50%',
-    width:'80%',
-    backgroundColor: 'green'
-},
+    width: '80%',
+  },
   text: {
     fontWeight: 'bold',
     textAlign: 'left',
@@ -112,10 +115,7 @@ const styles = StyleSheet.create({
   },
 
   buttonRemove: {
-    width: '30%',
     height: '10%',
-    marginVertical: '8%',
     marginRight: 'auto',
-    backgroundColor: 'red'
   },
 });
