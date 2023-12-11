@@ -16,16 +16,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="Contact",
             fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("contact_id", models.CharField(max_length=100)),
+                ("contact_id", models.CharField(
+                    max_length=100,
+                    primary_key=True,
+                    serialize=False
+                 )),
                 (
                     "customer_id",
                     models.ForeignKey(
