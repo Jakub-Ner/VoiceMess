@@ -34,11 +34,14 @@ class VocoderGenerateView(views.APIView):
     def post(self, request, *args, **kwargs):
         try:
             message = request.data['message']
-            eleven_labs_id = request.data['eleven_labs_id']
+            customer_id = request.data['customer_id']
         except Exception as e:
             print(e)
             return HttpResponse(content="Invalid request body, should be {message: <message>, eleven_labs_id: <eleven_labs_id>}", status=HTTP_400_BAD_REQUEST)
 
+        eleven_labs_id = Vocoder.objects.filter(customer_id=customer_id).first()
+        if not eleven_labs_id:
+            eleven_labs_id = Vocoder.objects.filter(customer_id=Customer.objects.filter(name="default").first()).first()
         vocoder = Vocoder.objects.filter(eleven_labs_id=eleven_labs_id).first()
         try:
             audio = generate(text=f'{message}.',
