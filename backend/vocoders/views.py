@@ -22,7 +22,7 @@ class VocoderViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         customer_id = kwargs['customer_id']
         customer = Customer.objects.filter(pk=customer_id).first()
-        vocoder_list = Vocoder.objects.filter(customer=customer)
+        vocoder_list = Vocoder.objects.filter(customer_id=customer_id)
         return Response(self.serializer_class(vocoder_list, many=True).data)
 
     def destroy(self, request, *args, **kwargs):
