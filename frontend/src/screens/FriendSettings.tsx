@@ -1,7 +1,7 @@
 import React from 'react';
 import { IndexPath, Layout, Select, SelectItem, Text } from '@ui-kitten/components';
 import { Image, StyleSheet } from "react-native";
-import useRequest from "../hooks/useRequest";
+import useVocoders from "../hooks/useVocoders";
 
 export default function FriendsSettings({route, navigation}) {
   const {name, picture} = route.params;
@@ -9,11 +9,10 @@ export default function FriendsSettings({route, navigation}) {
   const facebookId = route.params.facebookId
 
   const [selectedIndex, setSelectedIndex] = React.useState<IndexPath | IndexPath[]>(new IndexPath(0));
-  const data = useRequest(`${IP}/api/v1/vocoder/list/${facebookId}`,'GET');
-  if (!data) {
+  const [vocoders] = useVocoders(IP, facebookId);
+  if (!vocoders) {
     return <></>;
   }
-  const vocoders = data.map((vocoder) => vocoder.name);
   return (
     <>
       <Layout style={{flex: 1, alignItems: 'center',}}>
@@ -22,13 +21,16 @@ export default function FriendsSettings({route, navigation}) {
         <Select
             // @ts-ignore
           value={vocoders[selectedIndex.row]}
-          selectedIndex={selectedIndex}
+          placeholder='Brak dostępnych głosów'
+          // selectedIndex={selectedIndex}
           style={{width: '80%', height: '10%'}}
           onSelect={index => setSelectedIndex(index)}
         >
-          {vocoders.map((vocoderName, index) => (
+          {vocoders.length != 0 ? (vocoders.map((vocoderName, index) => (
             <SelectItem key={index} title={vocoderName}/>
-          ))}
+          ))
+          ): (<SelectItem key={0} title={'Brak dostępnych głosów'}/>)
+        }
         </Select>
       </Layout>
     </>

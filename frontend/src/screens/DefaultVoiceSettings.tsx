@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Divider, Layout, Radio, RadioGroup, Text } from '@ui-kitten/components';
 import { StyleSheet, View } from "react-native";
 import * as DocumentPicker from 'expo-document-picker';
-import useRequest from "../hooks/useRequest";
+import useVocoders from "../hooks/useVocoders";
 
 export default function DefaultVoiceSettings({route, navigation}) {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -16,20 +16,16 @@ export default function DefaultVoiceSettings({route, navigation}) {
     setSelectedFile(result);
   }
 
-  const data = useRequest(`${IP}/api/v1/vocoder/list/${facebookId}/`, 'GET');
+  const [vocoders, setVocoders, data, setData] = useVocoders(IP, facebookId);
 
-  let [vocoders, setVocoders] = useState(null);
-  useEffect(() => {
-    setVocoders(data?.map((vocoder) => vocoder.name));
-  }, [data]);
-
-  if (!data) {
+  if (!vocoders) {
     return <></>;
   }
   const triggerDelete = (index) => {
     fetch(`${IP}/api/v1/vocoder/${data[index].eleven_labs_id}/`, {
       method: 'DELETE',
     })
+    setData(data.filter((vocoder, i) => i !== index));
     setVocoders(vocoders.filter((vocoder, i) => i !== index));
   }
 
@@ -38,30 +34,30 @@ export default function DefaultVoiceSettings({route, navigation}) {
       <Layout style={{flex: 1, alignItems: 'flex-start', padding: '10%'}}>
         <Text category='h4' style={{marginBottom: '4%'}}>Moje głosy</Text>
         <View style={styles.container}>
-        <RadioGroup
-          selectedIndex={selectedIndex}
-          onChange={index => setSelectedIndex(index)}
-          style={{alignItems: 'flex-start', marginBottom: '20%', width: '100%'}}
-        >
-          {vocoders.map((vocoderName, index) => (
-              <Radio style={styles.button}  key={index} onLongPress={() => console.log(index)}>
-              {evaProps => <Text {...evaProps} style={{fontSize: 22}}> {vocoderName}</Text>}
-            </Radio>
+          <RadioGroup
+            selectedIndex={selectedIndex}
+            onChange={index => setSelectedIndex(index)}
+            style={{alignItems: 'flex-start', marginBottom: '20%', width: '100%'}}
+          >
+            {vocoders.map((vocoderName, index) => (
+                <Radio style={styles.button} key={index} onLongPress={() => console.log(index)}>
+                  {evaProps => <Text {...evaProps} style={{fontSize: 22}}> {vocoderName}</Text>}
+                </Radio>
               )
-          )
-          }
-        </RadioGroup>
-          <View>
-        {vocoders.map((vocoderName, index) => (
-            <Button style={styles.buttonRemove}
-                    key={index}
-                    appearance={'outline'}
-                    onPress={()=> triggerDelete(index)}>
-              {evaProps => <Text {...evaProps}>X</Text>}
-            </Button>
             )
-        )
-        }
+            }
+          </RadioGroup>
+          <View>
+            {vocoders.map((vocoderName, index) => (
+                <Button style={styles.buttonRemove}
+                        key={index}
+                        appearance={'outline'}
+                        onPress={() => triggerDelete(index)}>
+                  {evaProps => <Text {...evaProps}>X</Text>}
+                </Button>
+              )
+            )
+            }
           </View>
         </View>
 
