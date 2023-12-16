@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
-import { Button, Image, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Image, Linking, StyleSheet, TouchableHighlight, View } from "react-native";
 import * as Facebook from "expo-auth-session/providers/facebook";
 import * as WebBrowser from "expo-web-browser";
+import { Button, Layout, Text } from "@ui-kitten/components";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -17,7 +18,9 @@ export default function LoginScreen({navigation}) {
     navigation.navigate('contacts', {facebookId: user.id, name: user.name, picture: user.picture.data.url});
   };
 
-
+  const redirectToPolicy = () => {
+    Linking.openURL('https://elevenlabs.io/privacy').then(r => console.log(r)).catch(err => console.log(err));
+  };
   useEffect(() => {
     if (response && response.type === "success" && response.authentication) {
       (async () => {
@@ -45,39 +48,99 @@ export default function LoginScreen({navigation}) {
   }, [user, navigation]);
 
   return (
-    <Button
-      disabled={!request}
-      title="Sign in with Facebook"
-      onPress={handlePressAsync}
-    />
-  )
+    <Layout style={styles.container}>
+      <Image source={require('../../assets/logo.png')} style={styles.logo}/>
+      <Text category='h1'>VoiceMess</Text>
+      <Text category='h4'>Twój prywatny lektor SMS'ów</Text>
+      {/*<Text style={{width: '70%', marginTop:'15%'}} category='h5'>Klonuj i dobieraj głosy, które będą czytać Ci SMSy.</Text>*/}
+      <Button
+        style={styles.button}
+        disabled={!request}
+        onPress={handlePressAsync}
+      >
+        <Text>Zaloguj się przez Facebooka*</Text>
+      </Button>
+      <TouchableHighlight onPress={redirectToPolicy}>
+        <View>
+          <Text>
+            <Text>*Logując się akceptujesz </Text>
+            <Text style={{textDecorationLine: 'underline'}} onPress={redirectToPolicy}>regulamin</Text>
+            </Text>
+        </View>
+      </TouchableHighlight>
+    </Layout>
+)
 }
 
-function Profile({user}) {
+function Profile({
+  user
+}) {
   return (
-    <View style={styles.profile}>
+    <Layout style={styles.container}>
       <Image source={{uri: user.picture.data.url}} style={styles.image}/>
       <Text style={styles.name}>{user.name}</Text>
       <Text>ID: {user.id}</Text>
-    </View>
+    </Layout>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
+      alignItems
+  :
+    "center",
+  }
+,
+  logo: {
+    width: 100,
+      height
+  :
+    100,
+      borderRadius
+  :
+    50,
+      margin
+  :
+    '3%',
+      justifyContent
+  :
+    'center',
+      alignSelf
+  :
+    'center',
+      marginBottom
+  :
+    '10%',
+  }
+,
   profile: {
     alignItems: "center",
-  },
+  }
+,
   name: {
     fontSize: 20,
-  },
+  }
+,
   image: {
     width: 100,
-    height: 100,
-    borderRadius: 50,
-  },
+      height
+  :
+    100,
+      borderRadius
+  :
+    50,
+  }
+,
+  button: {
+    width: '60%',
+      marginTop
+  :
+    '40%',
+      marginBottom
+  :
+    '10%'
+  }
+,
+
 });
