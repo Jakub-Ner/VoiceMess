@@ -2,6 +2,7 @@ import React from 'react';
 import { IndexPath, Layout, Select, SelectItem, Text } from '@ui-kitten/components';
 import { Image, StyleSheet } from "react-native";
 import useVocoders from "../hooks/useVocoders";
+import { backAlert } from "../utils";
 
 export default function FriendsSettings({route, navigation}) {
   const {name, picture} = route.params;
@@ -10,12 +11,17 @@ export default function FriendsSettings({route, navigation}) {
 
   const [selectedIndex, setSelectedIndex] = React.useState<IndexPath | IndexPath[]>(new IndexPath(0));
   const [vocoders] = useVocoders(IP, facebookId);
+
+  const setVocoderAlert = (index) => {
+    backAlert(`ustawić\n${vocoders[index]} jako domyślny głos tego kontaktu`, () => setSelectedIndex(index));
+  }
+
   if (!vocoders) {
     return <></>;
   }
   return (
     <>
-      <Layout style={{flex: 1, alignItems: 'center',}}>
+      <Layout style={{flex: 1, alignItems: 'center'}}>
         <Image source={picture ? {uri: picture} : require('../../assets/person.png')} style={styles.image}/>
         <Text category='h1' style={{marginBottom: '20%'}}>{name}</Text>
         <Select
@@ -24,7 +30,7 @@ export default function FriendsSettings({route, navigation}) {
           placeholder='Brak dostępnych głosów'
           // selectedIndex={selectedIndex}
           style={{width: '80%', height: '10%'}}
-          onSelect={index => setSelectedIndex(index)}
+          onSelect={index => setVocoderAlert(index)}
         >
           {vocoders.length != 0 ? (vocoders.map((vocoderName, index) => (
             <SelectItem key={index} title={vocoderName}/>

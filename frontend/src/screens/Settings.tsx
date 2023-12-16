@@ -2,6 +2,7 @@ import React from 'react';
 import { Layout, Text } from '@ui-kitten/components';
 import { Image, StyleSheet } from "react-native";
 import IconButton from "../components/IconButton";
+import { redirectToPolicy } from "../utils";
 
 export default function Settings({route, navigation}) {
   const {name, picture} = route.params;
@@ -19,7 +20,7 @@ export default function Settings({route, navigation}) {
 
         <IconButton text={"Zarządzaj głosami"} file={require('../../assets/speakingHead.png')} onPress={() => navigateDefautlVoiceSettings(facebookId)} />
         <IconButton text={"Subskrypcja"} file={require('../../assets/payment.png')} onPress={() => console.log('goto subskrypcja')} />
-        <IconButton text={"Regulamin"} file={require('../../assets/statute.png')} onPress={() => console.log('goto regulamin')} />
+        <IconButton text={"Regulamin"} file={require('../../assets/statute.png')} onPress={redirectToPolicy} />
       </Layout>
     </>
   );

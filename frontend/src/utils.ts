@@ -1,5 +1,6 @@
 import { Audio } from "expo-av";
 import * as FileSystem from 'expo-file-system';
+import { Alert, Linking } from "react-native";
 
 
 export function getUri(filename: string): string {
@@ -33,4 +34,20 @@ export function postRequest(body, url) {
     .catch((error) => {
       console.error("Error:", error);
     });
+}
+
+export function backAlert(description: string, onPress: () => void) {
+  Alert.alert('Uwaga!', `Czy na pewno chcesz ${description}?`, [
+    {
+      text: 'Anuluj',
+      onPress: () => null,
+      style: 'cancel',
+    },
+    {text: 'Potwierdź', onPress: () => onPress()},
+  ]);
+  return true;
+}
+
+export function redirectToPolicy() {
+  Linking.openURL('https://elevenlabs.io/privacy').then(r => console.log(r)).catch(err => console.log(err));
 }

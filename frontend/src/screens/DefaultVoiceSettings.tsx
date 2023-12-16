@@ -3,6 +3,7 @@ import { Button, Divider, Layout, Radio, RadioGroup, Text } from '@ui-kitten/com
 import { StyleSheet, View } from "react-native";
 import * as DocumentPicker from 'expo-document-picker';
 import useVocoders from "../hooks/useVocoders";
+import { backAlert } from "../utils";
 
 export default function DefaultVoiceSettings({route, navigation}) {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -14,6 +15,10 @@ export default function DefaultVoiceSettings({route, navigation}) {
     let result = await DocumentPicker.getDocumentAsync({});
     console.log(result);
     setSelectedFile(result);
+  }
+
+  const deleteVocoderAlert = (index) => {
+    backAlert(`usunąć głos ${data[index].name}`, () => triggerDelete(index));
   }
 
   const [vocoders, setVocoders, data, setData] = useVocoders(IP, facebookId);
@@ -32,7 +37,8 @@ export default function DefaultVoiceSettings({route, navigation}) {
   return (
     <>
       <Layout style={{flex: 1, alignItems: 'flex-start', padding: '10%'}}>
-        <Text category='h4' style={{marginBottom: '4%'}}>Moje głosy</Text>
+        <Text category='h4' style={{marginBottom: '15%'}}>Moje głosy</Text>
+        <Text category='h5' style={{marginBottom: '5%'}}>Domyślny głos</Text>
         <View style={styles.container}>
           <RadioGroup
             selectedIndex={selectedIndex}
@@ -52,7 +58,7 @@ export default function DefaultVoiceSettings({route, navigation}) {
                 <Button style={styles.buttonRemove}
                         key={index}
                         appearance={'outline'}
-                        onPress={() => triggerDelete(index)}>
+                        onPress={() => deleteVocoderAlert(index)}>
                   {evaProps => <Text {...evaProps}>X</Text>}
                 </Button>
               )
@@ -63,7 +69,7 @@ export default function DefaultVoiceSettings({route, navigation}) {
 
 
         <Divider style={{width: '100%', marginBottom: '8%'}}/>
-        <Text category='h4' style={{marginBottom: '4%'}}>Sklonuj nowy głos</Text>
+        <Text category='h5' style={{marginBottom: '4%'}}>Sklonuj nowy głos</Text>
 
         {!selectedFile
           ? (
@@ -75,12 +81,12 @@ export default function DefaultVoiceSettings({route, navigation}) {
               <Text style={{fontSize: 22}}>
                 Wybrano: <Text style={{fontWeight: 'bold', fontSize: 22}}>{selectedFile.name}</Text>
               </Text>
-              <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+              <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: '10%', paddingVertical: '3%'}}>
                 {/*// TODO: Send sample POST /api/v1/vocoder/*/}
-                <Button style={styles.button} onPress={() => console.log("Send sample")}>
-                  <Text style={{fontSize: 22}}>Wyślij próbkę</Text>
+                <Button style={styles.buttonNew} status='success' onPress={() => console.log("Send sample")}>
+                  <Text style={{fontSize: 22}} >Wyślij próbkę</Text>
                 </Button>
-                <Button style={styles.button} onPress={pickedFile}>
+                <Button style={styles.buttonNew} onPress={pickedFile}>
                   <Text style={{fontSize: 22}}>Zmień próbkę</Text>
                 </Button>
               </View>
@@ -97,7 +103,7 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flexDirection: 'row',
-    height: '50%',
+    height: '40%',
     width: '80%',
   },
   text: {
@@ -109,7 +115,9 @@ const styles = StyleSheet.create({
     width: '80%',
     marginRight: 'auto',
   },
-
+  buttonNew: {
+   marginEnd: '5%',
+  },
   buttonRemove: {
     height: '10%',
     marginRight: 'auto',

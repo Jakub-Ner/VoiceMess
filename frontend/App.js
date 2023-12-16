@@ -18,7 +18,7 @@ import useSaveToFile from "./src/hooks/useSaveToFile";
 Buffer = require('buffer').Buffer;
 
 const {Navigator, Screen} = createStackNavigator();
-const IP = "http://192.168.19.218:8080/"
+const IP = "http://192.168.19.188:8080/"
 const AppNavigator = () => (
     <NavigationContainer>
         <Navigator screenOptions={{headerShown: false}}>
