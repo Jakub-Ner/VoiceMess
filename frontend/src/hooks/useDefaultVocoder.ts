@@ -92,5 +92,5 @@ export function getDefaultVocoderIndex(vocoders, data, defaultVocoder) {
     return 0;
   }
   const index = data.findIndex((vocoder) => vocoder.eleven_labs_id === defaultVocoder);
-  return index + 1;
+  return index === -1 ? 0 : index + 1;
 }
