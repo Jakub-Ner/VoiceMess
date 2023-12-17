@@ -4,7 +4,7 @@ import { StyleSheet, View } from "react-native";
 import * as DocumentPicker from 'expo-document-picker';
 import useVocoders from "../hooks/useVocoders";
 import { backAlert } from "../utils";
-import { getDefaultVocoderIndex, getUserDefaultVocoderIndex, useUserDefaultVocoder } from "../hooks/useDefaultVocoder";
+import { getUserDefaultVocoderIndex, useUserDefaultVocoder } from "../hooks/useDefaultVocoder";
 
 export default function DefaultVoiceSettings({route, navigation}) {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -12,9 +12,14 @@ export default function DefaultVoiceSettings({route, navigation}) {
   const facebookId = route.params.facebookId
 
   const pickedFile = async () => {
-    let result = await DocumentPicker.getDocumentAsync({});
-    console.log(result);
-    setSelectedFile(result);
+    // only .mp3 files should be allowed
+    try {
+      let result = await DocumentPicker.getDocumentAsync({type: 'audio/mpeg'});
+      console.log(result);
+      setSelectedFile(result);
+    } catch (err) {
+      console.error('Error picking a file:', err);
+    }
   }
 
   const deleteVocoderAlert = (index) => {
@@ -85,10 +90,16 @@ export default function DefaultVoiceSettings({route, navigation}) {
               <Text style={{fontSize: 22}}>
                 Wybrano: <Text style={{fontWeight: 'bold', fontSize: 22}}>{selectedFile.name}</Text>
               </Text>
-              <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: '10%', paddingVertical: '3%'}}>
+              <View style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                paddingHorizontal: '10%',
+                paddingVertical: '3%'
+              }}>
                 {/*// TODO: Send sample POST /api/v1/vocoder/*/}
                 <Button style={styles.buttonNew} status='success' onPress={() => console.log("Send sample")}>
-                  <Text style={{fontSize: 22}} >Wyślij próbkę</Text>
+                  <Text style={{fontSize: 22}}>Wyślij próbkę</Text>
                 </Button>
                 <Button style={styles.buttonNew} onPress={pickedFile}>
                   <Text style={{fontSize: 22}}>Zmień próbkę</Text>
@@ -120,7 +131,7 @@ const styles = StyleSheet.create({
     marginRight: 'auto',
   },
   buttonNew: {
-   marginEnd: '5%',
+    marginEnd: '5%',
   },
   buttonRemove: {
     height: '10%',
