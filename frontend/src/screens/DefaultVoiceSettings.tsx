@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Button, Divider, Layout, Radio, RadioGroup, Text } from '@ui-kitten/components';
-import { StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import * as DocumentPicker from 'expo-document-picker';
+import { Audio } from 'expo-av';
 import useVocoders from "../hooks/useVocoders";
 import { backAlert } from "../utils";
 import { getUserDefaultVocoderIndex, useUserDefaultVocoder } from "../hooks/useDefaultVocoder";
 
+export const MIN_VOICE_DURATION = 60; // seconds
+export const MAX_VOICE_DURATION = 120; // seconds
 export default function DefaultVoiceSettings({route, navigation}) {
   const [selectedFile, setSelectedFile] = useState(null);
   const IP = route.params.IP
@@ -16,7 +19,27 @@ export default function DefaultVoiceSettings({route, navigation}) {
     try {
       let result = await DocumentPicker.getDocumentAsync({type: 'audio/mpeg'});
       console.log(result);
-      setSelectedFile(result);
+      if (result.type !== 'success') {
+        return;
+      }
+      const audio = new Audio.Sound();
+      await audio.loadAsync({uri: result.uri});
+      audio.getStatusAsync()
+        .then( (result) => {
+          const duration = (result.durationMillis / 1000);
+          if (duration < MIN_VOICE_DURATION || duration > MAX_VOICE_DURATION) {
+            Alert.alert(
+              'Błąd',
+              `Wybrany plik ma długość ${duration} sekund, a powinien mieć od ${MIN_VOICE_DURATION} do ${MAX_VOICE_DURATION} sekund.`,
+              [{text: 'OK'}],
+              {cancelable: false},
+            );
+            return;
+          }
+          console.log("File duration: " + duration);
+          setSelectedFile(result);
+        })
+        .catch(() => console.log('error'));
     } catch (err) {
       console.error('Error picking a file:', err);
     }
