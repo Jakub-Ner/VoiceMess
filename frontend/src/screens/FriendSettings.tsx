@@ -2,7 +2,7 @@ import React from 'react';
 import { Layout, Radio, RadioGroup, Text } from '@ui-kitten/components';
 import { Image, StyleSheet } from "react-native";
 import useVocoders from "../hooks/useVocoders";
-import { getDefaultVocoderIndex, useDefaultVocoder } from "../hooks/useDefaultVocoder";
+import { getDefaultVocoderIndex, lackOfDefaultVocoder, useDefaultVocoder } from "../hooks/useDefaultVocoder";
 
 
 
@@ -11,7 +11,7 @@ export default function FriendsSettings({route, navigation}) {
   const IP = route.params.IP
   const facebookId = route.params.facebookId
 
-  const [vocoders, setVocoders, data, setData] = useVocoders(IP, facebookId);
+  const [vocoders, setVocoders, data, setData] = useVocoders(IP, facebookId, [lackOfDefaultVocoder]);
   const [defaultVocoder, setDefaultVocoder] = useDefaultVocoder(IP, name);
   const selectedIndex = getDefaultVocoderIndex(vocoders, data, defaultVocoder);
 

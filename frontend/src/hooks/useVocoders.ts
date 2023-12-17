@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 export const lackOfDefaultVocoder = 'Brak domyślnego vocodera';
 
-export default function useVocoders(ip, facebookId) {
-  const [vocoders, setVocoders] = useState([lackOfDefaultVocoder]);
+export default function useVocoders(ip, facebookId, initialVocoders = []) {
+  const [vocoders, setVocoders] = useState(initialVocoders);
   const [data, setData] = useState(null);
 
   useEffect(() => {

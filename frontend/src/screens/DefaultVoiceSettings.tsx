@@ -4,7 +4,7 @@ import { StyleSheet, View } from "react-native";
 import * as DocumentPicker from 'expo-document-picker';
 import useVocoders from "../hooks/useVocoders";
 import { backAlert } from "../utils";
-import { getDefaultVocoderIndex, useUserDefaultVocoder } from "../hooks/useDefaultVocoder";
+import { getDefaultVocoderIndex, getUserDefaultVocoderIndex, useUserDefaultVocoder } from "../hooks/useDefaultVocoder";
 
 export default function DefaultVoiceSettings({route, navigation}) {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -23,11 +23,13 @@ export default function DefaultVoiceSettings({route, navigation}) {
 
   const [vocoders, setVocoders, data, setData] = useVocoders(IP, facebookId);
   const [defaultVocoder, setDefaultVocoder] = useUserDefaultVocoder(IP, facebookId);
-  const selectedIndex = getDefaultVocoderIndex(vocoders, data, defaultVocoder);
+  const selectedIndex = getUserDefaultVocoderIndex(vocoders, data, defaultVocoder);
 
   if (!vocoders) {
     return <></>;
   }
+
+
   const triggerDelete = (index) => {
     fetch(`${IP}/api/v1/vocoder/${data[index].eleven_labs_id}/`, {
       method: 'DELETE',
@@ -44,11 +46,11 @@ export default function DefaultVoiceSettings({route, navigation}) {
         <View style={styles.container}>
           <RadioGroup
             selectedIndex={selectedIndex}
-            onChange={index => setDefaultVocoder(data[index - 1]?.eleven_labs_id)}
+            onChange={index => setDefaultVocoder(data[index].eleven_labs_id)}
             style={{alignItems: 'flex-start', marginBottom: '20%', width: '100%'}}
           >
             {vocoders.map((vocoderName, index) => (
-                <Radio style={styles.button} key={index} onLongPress={() => console.log(data[index - 1]?.name)}>
+                <Radio style={styles.button} key={index} onLongPress={() => console.log(data[index]?.name)}>
                   {evaProps => <Text {...evaProps} style={{fontSize: 22}}> {vocoderName}</Text>}
                 </Radio>
               )
