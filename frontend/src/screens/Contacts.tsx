@@ -68,7 +68,7 @@ export default function Contacts({route, navigation}) {
         title={() => <Text>{item.title}</Text>}
         style={{justifyContent: 'center', alignItems: 'center'}}
         description={item.description}
-        accessoryLeft={renderPerson({name: item.title})}
+        accessoryLeft={renderPerson({name: item.description})}
         accessoryRight={renderItemAccessory}
       />
     );

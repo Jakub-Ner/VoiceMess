@@ -4,9 +4,9 @@ import { StyleSheet, View } from "react-native";
 import * as DocumentPicker from 'expo-document-picker';
 import useVocoders from "../hooks/useVocoders";
 import { backAlert } from "../utils";
+import { getDefaultVocoderIndex, useUserDefaultVocoder } from "../hooks/useDefaultVocoder";
 
 export default function DefaultVoiceSettings({route, navigation}) {
-  const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedFile, setSelectedFile] = useState(null);
   const IP = route.params.IP
   const facebookId = route.params.facebookId
@@ -22,6 +22,8 @@ export default function DefaultVoiceSettings({route, navigation}) {
   }
 
   const [vocoders, setVocoders, data, setData] = useVocoders(IP, facebookId);
+  const [defaultVocoder, setDefaultVocoder] = useUserDefaultVocoder(IP, facebookId);
+  const selectedIndex = getDefaultVocoderIndex(vocoders, data, defaultVocoder);
 
   if (!vocoders) {
     return <></>;
@@ -42,11 +44,11 @@ export default function DefaultVoiceSettings({route, navigation}) {
         <View style={styles.container}>
           <RadioGroup
             selectedIndex={selectedIndex}
-            onChange={index => setSelectedIndex(index)}
+            onChange={index => setDefaultVocoder(data[index - 1]?.eleven_labs_id)}
             style={{alignItems: 'flex-start', marginBottom: '20%', width: '100%'}}
           >
             {vocoders.map((vocoderName, index) => (
-                <Radio style={styles.button} key={index} onLongPress={() => console.log(index)}>
+                <Radio style={styles.button} key={index} onLongPress={() => console.log(data[index - 1]?.name)}>
                   {evaProps => <Text {...evaProps} style={{fontSize: 22}}> {vocoderName}</Text>}
                 </Radio>
               )
