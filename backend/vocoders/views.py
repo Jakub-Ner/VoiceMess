@@ -27,8 +27,46 @@ class VocoderViewSet(viewsets.ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
+        try:
+            voice = Voice(voice_id=instance.eleven_labs_id)
+            voice.delete()
+        except Exception as e:
+            print(f"error during deleting voice: {e}. Maybe the voice is built-in")
         self.perform_destroy(instance)
         return Response({"message": "Vocoder deleted successfully"})
+
+    def create(self, request, *args, **kwargs):
+        try:
+            print(request.data)
+            customer_id = kwargs['customer_id']
+            name = list(request.data.keys())[0]
+            f = request.data[name]
+        except Exception as e:
+            print(f"Invalid request body: lacking field {e}")
+            return HttpResponse(content=f"Invalid request body: lacking field {e}", status=HTTP_400_BAD_REQUEST)
+
+        with open(f"./{name}.mp3", "wb+") as destination:
+            for chunk in f.chunks():
+                destination.write(chunk)
+
+        try:
+            customer = Customer.objects.filter(pk=customer_id).first()
+            if not customer:
+                return HttpResponse(content="Customer not found", status=HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            print(f"error during getting customer: {e}")
+            return HttpResponse(content="error during getting customer", status=HTTP_500_INTERNAL_SERVER_ERROR)
+
+        try:
+            generated_voice = clone(name=name, files=[f'./{name}.mp3'])
+            eleven_labs_id = generated_voice.voice_id
+        except Exception as e:
+            print(f"error during generating voice: {e}")
+            return HttpResponse(content="error during generating voice", status=HTTP_500_INTERNAL_SERVER_ERROR)
+
+        vocoder = Vocoder.objects.create(name=name, customer_id=customer, eleven_labs_id=eleven_labs_id)
+        vocoder.save()
+        return Response(self.serializer_class(vocoder).data)
 
 
 class VocoderGenerateView(views.APIView):

@@ -20,6 +20,8 @@ environ.Env.read_env()
 set_api_key(env('ELEVENLABS_API_KEY'))
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -48,7 +50,12 @@ INSTALLED_APPS = [
     "customer.apps.CustomerConfig",
     "contacts.apps.ContactsConfig",
 ]
-
+# REST_FRAMEWORK = {
+#     'DEFAULT_PARSER_CLASSES': (
+#         'rest_framework.parsers.FormParser',
+#         'rest_framework.parsers.MultiPartParser'
+#     )
+# }
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",

@@ -6,11 +6,13 @@ import { Audio } from 'expo-av';
 import useVocoders from "../hooks/useVocoders";
 import { backAlert } from "../utils";
 import { getUserDefaultVocoderIndex, useUserDefaultVocoder } from "../hooks/useDefaultVocoder";
+import { FileSystemUploadType, uploadAsync } from "expo-file-system";
 
 export const MIN_VOICE_DURATION = 60; // seconds
 export const MAX_VOICE_DURATION = 120; // seconds
 export default function DefaultVoiceSettings({route, navigation}) {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [filename, setFilename] = useState("");
   const IP = route.params.IP
   const facebookId = route.params.facebookId
 
@@ -18,14 +20,14 @@ export default function DefaultVoiceSettings({route, navigation}) {
     // only .mp3 files should be allowed
     try {
       let result = await DocumentPicker.getDocumentAsync({type: 'audio/mpeg'});
-      console.log(result);
       if (result.type !== 'success') {
         return;
       }
+      setFilename(result.name);
       const audio = new Audio.Sound();
       await audio.loadAsync({uri: result.uri});
       audio.getStatusAsync()
-        .then( (result) => {
+        .then((result) => {
           const duration = (result.durationMillis / 1000);
           if (duration < MIN_VOICE_DURATION || duration > MAX_VOICE_DURATION) {
             Alert.alert(
@@ -59,13 +61,32 @@ export default function DefaultVoiceSettings({route, navigation}) {
 
 
   const triggerDelete = (index) => {
-    fetch(`${IP}/api/v1/vocoder/${data[index].eleven_labs_id}/`, {
+    fetch(`${IP}/api/v1/vocoder/one/${data[index].eleven_labs_id}/`, {
       method: 'DELETE',
     })
     setData(data.filter((vocoder, i) => i !== index));
     setVocoders(vocoders.filter((vocoder, i) => i !== index));
   }
 
+  const sendSample = async () => {
+    try {
+      setSelectedFile(null)
+      uploadAsync(`${IP}/api/v1/vocoder/create/${facebookId}`, selectedFile.uri, {
+        fieldName: filename,
+        httpMethod: 'POST',
+        uploadType: FileSystemUploadType.MULTIPART,
+        headers: {
+          'Content-Type': 'text/html',
+        },
+      }).then((response) => {
+        console.log('new vocoder: ', response.body)
+      }).catch((error) => {
+        console.error('Error:', JSON.stringify(error));
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <>
       <Layout style={{flex: 1, alignItems: 'flex-start', padding: '10%'}}>
@@ -111,7 +132,7 @@ export default function DefaultVoiceSettings({route, navigation}) {
           ) : (
             <>
               <Text style={{fontSize: 22}}>
-                Wybrano: <Text style={{fontWeight: 'bold', fontSize: 22}}>{selectedFile.name}</Text>
+                Wybrano: <Text style={{fontWeight: 'bold', fontSize: 22}}>{filename}</Text>
               </Text>
               <View style={{
                 flexDirection: 'row',
@@ -120,8 +141,7 @@ export default function DefaultVoiceSettings({route, navigation}) {
                 paddingHorizontal: '10%',
                 paddingVertical: '3%'
               }}>
-                {/*// TODO: Send sample POST /api/v1/vocoder/*/}
-                <Button style={styles.buttonNew} status='success' onPress={() => console.log("Send sample")}>
+                <Button style={styles.buttonNew} status='success' onPress={sendSample}>
                   <Text style={{fontSize: 22}}>Wyślij próbkę</Text>
                 </Button>
                 <Button style={styles.buttonNew} onPress={pickedFile}>
