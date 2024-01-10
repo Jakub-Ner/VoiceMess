@@ -1,0 +1,239 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "VoiceMess API",
+        "description": "Test description",
+        "version": "v1"
+    },
+    "host": "127.0.0.1:8000",
+    "schemes": [
+        "http"
+    ],
+    "basePath": "/api/v1",
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "securityDefinitions": {
+        "Basic": {
+            "type": "basic"
+        }
+    },
+    "security": [
+        {
+            "Basic": []
+        }
+    ],
+    "paths": {
+        "/contacts/{contact_id}/": {
+            "patch": {
+                "operationId": "contacts_update",
+                "description": "A viewset for viewing and editing user instances.",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Contact"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Contact"
+                        }
+                    }
+                },
+                "tags": [
+                    "contacts"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "contact_id",
+                    "in": "path",
+                    "description": "A unique value identifying this contact.",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "/customer/": {
+            "post": {
+                "operationId": "customer_create",
+                "description": "A viewset for viewing and editing user instances.",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Customer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Customer"
+                        }
+                    }
+                },
+                "tags": [
+                    "customer"
+                ]
+            },
+            "parameters": []
+        },
+        "/customer/{facebook_id}/": {
+            "patch": {
+                "operationId": "customer_update",
+                "description": "A viewset for viewing and editing user instances.",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Customer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Customer"
+                        }
+                    }
+                },
+                "tags": [
+                    "customer"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "facebook_id",
+                    "in": "path",
+                    "description": "A unique value identifying this customer.",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "/vocoder/one/{eleven_labs_id}/": {
+            "delete": {
+                "operationId": "vocoder_one_delete",
+                "description": "A viewset for viewing and editing user instances.",
+                "parameters": [],
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "vocoder"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "eleven_labs_id",
+                    "in": "path",
+                    "description": "A unique value identifying this vocoder.",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        }
+    },
+    "definitions": {
+        "Contact": {
+            "required": [
+                "contact_id",
+                "customer_id"
+            ],
+            "type": "object",
+            "properties": {
+                "contact_id": {
+                    "title": "Contact id",
+                    "type": "string",
+                    "maxLength": 100,
+                    "minLength": 1
+                },
+                "customer_id": {
+                    "title": "Customer id",
+                    "type": "string"
+                },
+                "vocoder_id": {
+                    "title": "Vocoder id",
+                    "type": "string",
+                    "x-nullable": true
+                }
+            }
+        },
+        "Customer": {
+            "required": [
+                "facebook_id"
+            ],
+            "type": "object",
+            "properties": {
+                "facebook_id": {
+                    "title": "Facebook id",
+                    "type": "string",
+                    "maxLength": 100,
+                    "minLength": 1
+                },
+                "card_id": {
+                    "title": "Card id",
+                    "type": "string",
+                    "maxLength": 100,
+                    "x-nullable": true
+                },
+                "payment_date": {
+                    "title": "Payment date",
+                    "type": "string",
+                    "format": "date",
+                    "x-nullable": true
+                },
+                "default_vocoder_id": {
+                    "title": "Default vocoder id",
+                    "type": "string",
+                    "maxLength": 100,
+                    "minLength": 1
+                }
+            }
+        },
+        "Vocoder": {
+            "required": [
+                "eleven_labs_id",
+                "name",
+                "customer_id"
+            ],
+            "type": "object",
+            "properties": {
+                "eleven_labs_id": {
+                    "title": "Eleven labs id",
+                    "type": "string",
+                    "maxLength": 100,
+                    "minLength": 1
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 100,
+                    "minLength": 1
+                },
+                "customer_id": {
+                    "title": "Customer id",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

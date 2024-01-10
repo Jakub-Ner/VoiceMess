@@ -1,4 +1,4 @@
-from elevenlabs import Voice, generate
+from elevenlabs import Voice, generate, clone
 from rest_framework import viewsets, views
 from rest_framework.response import Response
 from django.http import HttpResponse
