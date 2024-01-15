@@ -48,10 +48,10 @@ class VocoderViewSet(viewsets.ModelViewSet):
         with open(f"./{name}.mp3", "wb+") as destination:
             for chunk in f.chunks():
                 destination.write(chunk)
-
         try:
             customer = Customer.objects.filter(pk=customer_id).first()
             if not customer:
+                print("Customer not found")
                 return HttpResponse(content="Customer not found", status=HTTP_400_BAD_REQUEST)
         except Exception as e:
             print(f"error during getting customer: {e}")

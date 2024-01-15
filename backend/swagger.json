@@ -127,6 +127,41 @@
                 }
             ]
         },
+         "/vocoder/create/{customer_id}": {
+            "post": {
+                "operationId": "vocoder_create_create",
+                "description": "A viewset for viewing and editing user instances.",
+                "parameters": [
+                    {
+                        "name": "audio",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Vocoder"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Vocoder"
+                        }
+                    }
+                },
+                "tags": [
+                    "vocoder"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "customer_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
         "/vocoder/one/{eleven_labs_id}/": {
             "delete": {
                 "operationId": "vocoder_one_delete",
