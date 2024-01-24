@@ -23,7 +23,7 @@ class CustomerCreateTestCase(TestCase):
         response = self.client.patch(self.url, data)
 
         self.assertEqual(response.status_code, 200)
-        print(response.content)
+        # print(response.content)
         updated_customer = Customer.objects.get(facebook_id=self.customer.facebook_id)
         self.assertEqual(updated_customer.default_vocoder_id, self.vocoder1.eleven_labs_id)
         
@@ -36,7 +36,7 @@ class CustomerCreateTestCase(TestCase):
         response = self.client.patch(self.url, data)
 
         self.assertEqual(response.status_code, 200)
-        print(response.content)
+        # print(response.content)
         updated_customer = Customer.objects.get(facebook_id=self.customer.facebook_id)
         self.assertEqual(updated_customer.default_vocoder_id, self.vocoder2.eleven_labs_id)
 
