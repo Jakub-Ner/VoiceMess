@@ -26,6 +26,7 @@ class VocoderCreateTestCase(TestCase):
         response = self.client.post(self.url, data=file_data, format='multipart')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        # self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST) # wrong
 
         self.assertEqual(Vocoder.objects.count(), 1)
         vocoder = Vocoder.objects.first()

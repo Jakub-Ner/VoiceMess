@@ -1,3 +1,5 @@
+import os
+
 from elevenlabs import Voice, generate, clone
 from rest_framework import viewsets, views
 from rest_framework.response import Response
@@ -60,6 +62,7 @@ class VocoderViewSet(viewsets.ModelViewSet):
         try:
             generated_voice = clone(name=name, files=[f'./{name}.mp3'])
             eleven_labs_id = generated_voice.voice_id
+            os.remove(f"{name}.mp3")
         except Exception as e:
             print(f"error during generating voice: {e}")
             return HttpResponse(content="error during generating voice", status=HTTP_500_INTERNAL_SERVER_ERROR)

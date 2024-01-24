@@ -4,3 +4,4 @@ db.sqlite3
 *.pyc
 /**/.env
 /test-audio-rachel.wav
+testing_voice.mp3
